@@ -3,12 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cwa powerfit - Home Office</title>
+    <title>Warrior 30D - Acceso Exclusivo</title>
     <link rel="manifest" href="manifest.json">
     <style>
         :root { --primary: #6366f1; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; }
-        body { font-family: sans-serif; background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        .app-container { max-width: 500px; width: 100%; }
+        body { font-family: sans-serif; background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; padding: 20px; min-height: 100vh; }
+        .app-container { max-width: 500px; width: 100%; display: none; } /* Oculto por defecto */
+        
+        /* Estilos del Muro de Pago */
+        #auth-screen { 
+            max-width: 400px; width: 100%; text-align: center; margin-top: 50px; 
+            background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        input { width: 80%; padding: 15px; margin: 20px 0; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1.1em; text-align: center; }
+        .btn-unlock { background: #10b981; color: white; border: none; padding: 15px 30px; border-radius: 12px; font-weight: bold; cursor: pointer; width: 85%; }
+        
+        /* Estilos de la App (iguales a los anteriores) */
         .card { background: var(--card); padding: 25px; border-radius: 20px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); text-align: center; }
         .day-badge { background: var(--primary); color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; display: inline-block; margin-bottom: 10px; }
         ul { list-style: none; padding: 0; text-align: left; margin: 20px 0; }
@@ -21,17 +31,24 @@
 </head>
 <body>
 
-<div class="app-container">
-    <header style="text-align: center;">
-        <h1>Cwa Powerfit 🧘‍♂️</h1>
-    </header>
+<div id="auth-screen">
+    <div style="font-size: 50px;">🔐</div>
+    <h2>Acceso Warrior 30D</h2>
+    <p>Introduce tu clave de activación para desbloquear tu plan de entrenamiento.</p>
+    <input type="text" id="pass-input" placeholder="Tu clave aquí">
+    <button class="btn-unlock" onclick="checkPass()">Activar Plan</button>
+    <p style="font-size: 0.8em; color: #94a3b8; margin-top: 20px;">¿No tienes clave? <br> Cómprala en tu-tienda.com</p>
+</div>
 
+<div class="app-container" id="app-content">
+    <header style="text-align: center;">
+        <h1>Warrior 30D 🧘‍♂️</h1>
+    </header>
     <div class="card">
         <div id="day-label" class="day-badge">Día 1</div>
         <h2 id="day-title">Cargando...</h2>
         <ul id="exercise-list"></ul>
         <p class="pro-tip" id="pro-tip"></p>
-
         <div class="controls">
             <button id="prevBtn">Anterior</button>
             <button id="nextBtn">Siguiente</button>
@@ -40,47 +57,45 @@
 </div>
 
 <script>
+    // 🔑 DEFINE TU CLAVE AQUÍ (Cámbiala por la que quieras)
+    const SECRET_KEY = "WARRIOR2024"; 
+
+    // Verificación inicial
+    if (localStorage.getItem('unlocked') === 'true') {
+        showApp();
+    }
+
+    function checkPass() {
+        const input = document.getElementById('pass-input').value;
+        if (input.toUpperCase() === SECRET_KEY) {
+            localStorage.setItem('unlocked', 'true');
+            showApp();
+        } else {
+            alert("Clave incorrecta. Revisa tu correo de confirmación.");
+        }
+    }
+
+    function showApp() {
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('app-content').style.display = 'block';
+        updateUI();
+    }
+
     const plan = [
         { title: "Despertar Postural", exercises: ["10 Rotaciones cuello", "15 Aperturas pecho", "Plancha 30s"], tip: "Monitor a la altura de los ojos." },
         { title: "Adiós Silla", exercises: ["20 Sentadillas silla", "10 Estocadas", "Estiramiento Psoas"], tip: "Levántate cada 50 minutos." },
-        { title: "Espalda Fuerte", exercises: ["15 Supermans (suelo)", "10 Bird-Dog", "Plancha 40s"], tip: "No cruces las piernas al sentarte." },
-        { title: "Hombros Libres", exercises: ["15 Giros hombros", "10 Flexiones pared", "Estiramiento tríceps"], tip: "Bebe 1 vaso de agua tras cada reunión." },
-        { title: "Core Estable", exercises: ["30s Plancha lateral", "15 Deadbugs", "10 Puentes glúteo"], tip: "Tu espalda baja debe tocar el respaldo." },
-        { title: "Circuito Energía", exercises: ["20 Jumping Jacks", "10 Sentadillas", "10 Flexiones"], tip: "Hoy trabaja de pie 15 minutos si puedes." },
-        { title: "Estiramiento Total", exercises: ["5 min Yoga suave", "Estiramiento cuello", "Respiración profunda"], tip: "Día de descanso activo. Camina fuera." },
-        { title: "Tren Inferior", exercises: ["25 Sentadillas", "15 Zancadas", "Silla isométrica 30s"], tip: "Usa calzado cómodo, incluso en casa." },
-        { title: "Tren Superior", exercises: ["12 Flexiones suelo", "15 Fondos sofá", "Plancha 30s"], tip: "Limpia tu escritorio, despeja la mente." },
-        { title: "Cardio Express", exercises: ["30 Mountain Climbers", "20 Skiping", "Plancha 45s"], tip: "La fatiga mental se quita con sudor." },
-        { title: "Espalda de Acero", exercises: ["15 Bird-Dog lentos", "15 Superman", "Remo imaginario"], tip: "Mira al horizonte 2 minutos para descansar la vista." },
-        { title: "Glúteos y Core", exercises: ["20 Puentes glúteo", "15 Clamshells", "Plancha 1 min"], tip: "Aprieta el abdomen mientras escribes." },
-        { title: "Reto de Brazos", exercises: ["20 Flexiones pared", "20 Fondos silla", "Círculos brazos"], tip: "Evita el exceso de cafeína después de las 3 PM." },
-        { title: "Relax Activo", exercises: ["Estiramiento largo", "Caminar 30 min", "Movilidad articular"], tip: "Desconecta el Slack/Teams por completo hoy." },
-        { title: "Quemando Calorías", exercises: ["30s Burpees", "30s Descanso", "Repetir 5 veces"], tip: "Ventila tu habitación antes de entrenar." },
-        { title: "Piernas de Hierro", exercises: ["15 Sentadillas salto", "20 Zancadas", "1 min Silla pared"], tip: "Sube las escaleras de tu edificio 2 veces." },
-        { title: "Abdominales", exercises: ["20 Crunches", "20 Toques talón", "30s Bicicleta"], tip: "Cena ligero para dormir mejor." },
-        { title: "Pecho y Tríceps", exercises: ["15 Flexiones", "15 Fondos", "Plancha diamante"], tip: "Organiza tu agenda de mañana hoy mismo." },
-        { title: "Agilidad", exercises: ["40 Jumping Jacks", "20 Escaladores", "10 Burpees"], tip: "Si duele la cabeza, estira el cuello." },
-        { title: "Postura Perfecta", exercises: ["Wall slide 15 reps", "Plancha", "Apertura pecho"], tip: "Usa la regla 20-20-20 para tus ojos." },
-        { title: "Recuperación", exercises: ["Estiramiento yoga", "Baño caliente", "Meditación 5 min"], tip: "Día de descanso. Lee un libro físico." },
-        { title: "Full Body 1", exercises: ["20 Sentadillas", "15 Flexiones", "20 Abdominales"], tip: "Ya casi lo tienes, mantén el ritmo." },
-        { title: "Full Body 2", exercises: ["20 Zancadas", "15 Fondos", "1 min Plancha"], tip: "Tu energía por la tarde debería ser mayor ahora." },
-        { title: "Explosividad", exercises: ["30s Burpees", "30s Jumping Jacks", "30s Escaladores"], tip: "El éxito es la suma de pequeños esfuerzos." },
-        { title: "Fuerza Máxima", exercises: ["Flexiones al fallo", "Sentadillas al fallo", "Plancha al fallo"], tip: "No te rindas, eres más fuerte que el primer día." },
-        { title: "Movilidad Pro", exercises: ["Saludo al sol x5", "Estiramiento Cobra", "Postura del niño"], tip: "La flexibilidad mental empieza en el cuerpo." },
-        { title: "Resistencia", exercises: ["Plancha 1:30 min", "50 Jumping Jacks", "20 Flexiones"], tip: "Sonríe, estás cambiando tus hábitos." },
-        { title: "Repaso General", exercises: ["10 reps de cada ejercicio favorito"], tip: "Mira atrás y mira cuánto has avanzado." },
-        { title: "El Desafío", exercises: ["Circuito HIIT 10 min sin parar"], tip: "Prepara una recompensa saludable para mañana." },
-        { title: "¡Victoria!", exercises: ["30 min de tu actividad favorita", "Celebración"], tip: "¡Felicidades, Guerrero Remoto!" }
+        // ... (AQUÍ COPIAS EL RESTO DE LOS 30 DÍAS QUE TE PASÉ ANTES)
+        { title: "¡Victoria!", exercises: ["30 min actividad favorita", "Celebración"], tip: "¡Eres un Guerrero!" }
     ];
 
     let currentDay = 0;
 
     function updateUI() {
         const data = plan[currentDay];
+        if(!data) return;
         document.getElementById('day-label').innerText = `Día ${currentDay + 1}`;
         document.getElementById('day-title').innerText = data.title;
         document.getElementById('pro-tip').innerText = `💡 Tip: ${data.tip}`;
-        
         const list = document.getElementById('exercise-list');
         list.innerHTML = "";
         data.exercises.forEach(ex => {
@@ -88,20 +103,12 @@
             li.innerText = `⚡ ${ex}`;
             list.appendChild(li);
         });
-
         document.getElementById('prevBtn').disabled = currentDay === 0;
         document.getElementById('nextBtn').disabled = currentDay === plan.length - 1;
     }
 
-    document.getElementById('prevBtn').addEventListener('click', () => {
-        if(currentDay > 0) { currentDay--; updateUI(); }
-    });
-
-    document.getElementById('nextBtn').addEventListener('click', () => {
-        if(currentDay < plan.length - 1) { currentDay++; updateUI(); }
-    });
-
-    updateUI();
+    document.getElementById('prevBtn').onclick = () => { if(currentDay > 0) { currentDay--; updateUI(); } };
+    document.getElementById('nextBtn').onclick = () => { if(currentDay < plan.length - 1) { currentDay++; updateUI(); } };
 </script>
 </body>
 </html>
