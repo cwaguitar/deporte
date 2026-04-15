@@ -9,12 +9,14 @@
         :root { --primary: #fbbf24; --bg: #05070a; --card: #10141d; --text: #ffffff; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
         
-        /* PORTADA CON TU FOTO DSC_0184.JPG */
+        /* PORTADA CON TU FOTO PERSONALIZADA */
         #auth-screen { 
             height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background-image: linear-gradient(to bottom, rgba(5, 7, 10, 0.3) 0%, rgba(5, 7, 10, 1) 95%), url('DSC_0184.JPG');
+            /* SE LLAMA portada.JPG - Asegúrate de subirla a la raíz de GitHub */
+            background-image: linear-gradient(to bottom, rgba(5, 7, 10, 0.3) 0%, rgba(5, 7, 10, 1) 95%), url('portada.JPG');
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
             text-align: center; padding: 0 20px;
         }
 
@@ -25,7 +27,7 @@
         input { width: 85%; padding: 16px; background: #000; border: 1px solid #444; color: white; border-radius: 12px; margin-bottom: 15px; text-align: center; font-family: 'Syncopate'; font-size: 0.8rem; }
         .btn-glow { background: var(--primary); color: black; border: none; padding: 18px; width: 100%; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: 0.3s; box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3); }
 
-        /* STATUS BAR */
+        /* STATUS BAR (RACHAS Y XP) */
         .top-nav { width: 100%; background: #000; padding: 15px 0; display: flex; justify-content: center; gap: 20px; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 99; }
         .stat-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
         .stat-item span { color: var(--primary); }
@@ -75,7 +77,7 @@
 
 <div class="bottom-nav" id="bottom-nav" style="display: none;">
     <button class="btn-action" style="background: #222; color: white;" onclick="move(-1)">BACK</button>
-    <button class="btn-action btn-glow" id="next-btn" onclick="move(1)">NEXT STEP</button>
+    <button class="btn-action btn-glow" id="next-btn" onclick="move(1)">COMPLETE STEP</button>
 </div>
 
 <script>
@@ -102,7 +104,6 @@
         { t: "Re Menor: Tensión", i: "https://images.unsplash.com/photo-1550291652-6ea9114a47b1?w=800", steps: [{h: "Punta de dedo", p: "D1 en el traste 1 de la primera cuerda. Muy preciso."}, {h: "Rasgueo", p: "Solo cuerdas agudas para un sonido brillante y triste."}] }
     ];
 
-    // Completar hasta 30 días
     for(let i=10; i<30; i++) {
         database.push({ t: `Técnica Nivel ${i+1}`, i: "https://images.unsplash.com/photo-1550291652-6ea9114a47b1?w=800", steps: [{h: "Enfoque", p: "Repite el cambio de acorde 20 veces sin mirar la mano."}, {h: "Desafío", p: "Intenta que todas las cuerdas suenen cristalinas."}] });
     }
@@ -184,7 +185,7 @@
 
     function move(dir) {
         if(currentDay + dir >= 0 && currentDay + dir < 30) {
-            if(dir === 1) { // Si avanza, gana XP
+            if(dir === 1) { 
                 xp += 100;
                 localStorage.setItem('jg_xp', xp);
             }
