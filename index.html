@@ -3,193 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guitarra con Jose | Neuro-Training</title>
+    <title>Jose Guitar | Elite Training</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;600;900&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #fbbf24; --bg: #050811; --card: #111827; --text: #f8fafc; --success: #10b981; }
-        body { font-family: 'Inter', system-ui, sans-serif; background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; margin: 0; padding-bottom: 100px; overflow-x: hidden; }
+        :root { --primary: #fbbf24; --bg: #05070a; --card: #10141d; --text: #ffffff; --accent: #f59e0b; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
         
-        /* HEADER GAMIFICADO */
-        .status-bar { width: 100%; background: #1f2937; padding: 15px 0; display: flex; justify-content: center; gap: 20px; sticky: top; z-index: 1000; border-bottom: 1px solid #374151; }
-        .stat { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 0.9em; }
-        .fire { color: #f97316; filter: drop-shadow(0 0 5px #f97316); }
+        /* PORTADA DE ALTO IMPACTO */
+        #auth-screen { 
+            height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: radial-gradient(circle at center, #1a1f2e 0%, #05070a 100%);
+            text-align: center; padding: 0 20px;
+        }
+        .hero-logo { font-family: 'Syncopate', sans-serif; font-size: 2.5rem; font-weight: 700; letter-spacing: -2px; margin-bottom: 5px; color: var(--primary); text-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
+        .hero-sub { text-transform: uppercase; letter-spacing: 5px; font-size: 0.7rem; opacity: 0.6; margin-bottom: 40px; }
+        
+        .login-box { background: rgba(255,255,255,0.03); padding: 30px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); width: 100%; max-width: 320px; }
+        input { width: 90%; padding: 18px; background: #000; border: 1px solid #333; color: white; border-radius: 15px; margin-bottom: 15px; text-align: center; font-family: 'Syncopate'; }
+        .btn-glow { 
+            background: var(--primary); color: black; border: none; padding: 20px; width: 100%; border-radius: 15px; 
+            font-weight: 900; cursor: pointer; text-transform: uppercase; transition: 0.4s;
+            box-shadow: 0 10px 30px rgba(251, 191, 36, 0.3);
+        }
+        .btn-glow:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(251, 191, 36, 0.5); }
 
-        /* PANTALLA DE ACCESO */
-        #auth-screen { max-width: 400px; width: 90%; text-align: center; margin-top: 60px; background: var(--card); padding: 40px 20px; border-radius: 30px; border: 1px solid #374151; }
-        input { width: 80%; padding: 15px; margin: 20px 0; border: 2px solid #374151; background: #050811; color: white; border-radius: 15px; text-align: center; }
-        .btn-main { background: var(--primary); color: #000; border: none; padding: 18px 40px; border-radius: 15px; font-weight: 900; cursor: pointer; width: 90%; text-transform: uppercase; }
+        /* STATUS BAR SUPERIOR */
+        .top-nav { width: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); padding: 15px 0; display: flex; justify-content: center; gap: 25px; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 99; }
+        .stat-item { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 700; }
+        .stat-item span { color: var(--primary); }
 
-        /* APP CONTENT */
-        #app-content { display: none; width: 95%; max-width: 500px; margin-top: 20px; animation: slideUp 0.5s ease; }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        /* CONTENIDO PRINCIPAL */
+        #app-content { display: none; width: 90%; max-width: 450px; margin: 30px auto; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* NIVEL Y XP */
-        .xp-container { background: #1f2937; height: 12px; border-radius: 6px; margin: 10px 0; overflow: hidden; border: 1px solid #374151; }
-        #xp-bar { background: linear-gradient(90deg, #fbbf24, #f59e0b); height: 100%; width: 0%; transition: width 0.5s; }
+        .visual-frame { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 30px; margin-bottom: 25px; overflow: hidden; border: 1px solid #333; box-shadow: 0 20px 40px rgba(0,0,0,0.6); position: relative; }
+        .visual-frame img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .lesson-info { background: var(--card); border-radius: 35px; padding: 30px; border: 1px solid #222; }
+        .day-tag { color: var(--primary); font-size: 0.7rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; }
+        
+        /* TAREAS ANIMADAS */
+        .task-list { margin-top: 20px; }
+        .task { background: #0a0c12; padding: 20px; border-radius: 20px; border: 1px solid #1a1f2e; margin-bottom: 12px; transition: 0.3s; cursor: pointer; }
+        .task.completed { border-left: 5px solid var(--primary); background: #0e121a; }
+        .task b { display: block; color: var(--primary); font-size: 0.8rem; margin-bottom: 5px; text-transform: uppercase; }
+        .task p { margin: 0; font-size: 0.9rem; color: #94a3b8; line-height: 1.4; }
 
-        /* VISUALIZADOR PRO */
-        .main-stage { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 25px; margin-bottom: 20px; overflow: hidden; border: 2px solid #374151; position: relative; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
-        .main-stage img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
-        .badge-pop { position: absolute; top: 10px; right: 10px; background: var(--primary); color: black; padding: 5px 12px; border-radius: 20px; font-size: 0.7em; font-weight: 900; display: none; animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes pop { from { scale: 0; } to { scale: 1; } }
-
-        /* TAREAS INTERACTIVAS */
-        .task-box { background: var(--card); padding: 20px; border-radius: 25px; border: 1px solid #374151; margin-bottom: 80px; }
-        .task-card { background: #050811; padding: 15px; border-radius: 15px; margin-bottom: 10px; border-left: 4px solid #374151; transition: 0.3s; }
-        .task-card.done { border-left-color: var(--success); background: #064e3b33; }
-
-        /* BARRA NAVEGACIÓN */
-        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(17, 24, 39, 0.95); backdrop-filter: blur(10px); padding: 20px; display: flex; gap: 10px; border-top: 1px solid #374151; }
-        .btn-nav { flex: 1; padding: 15px; border-radius: 12px; border: none; font-weight: 800; cursor: pointer; transition: 0.2s; }
-        .btn-next { background: var(--primary); color: black; }
-        .btn-next:disabled { filter: grayscale(1); opacity: 0.5; }
+        /* NAV BAR */
+        .bottom-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; display: flex; gap: 10px; z-index: 100; }
+        .btn-action { flex: 1; padding: 18px; border-radius: 18px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; }
     </style>
 </head>
 <body>
 
-<div class="status-bar" id="top-bar" style="display: none;">
-    <div class="stat fire">🔥 <span id="streak-val">0</span> DÍAS</div>
-    <div class="stat">⭐ NIVEL: <span id="level-val">NOVATO</span></div>
-    <div class="stat" style="color: var(--primary);">XP: <span id="xp-val">0</span></div>
+<div id="auth-screen">
+    <div class="hero-logo">JOSE GUITAR</div>
+    <div class="hero-sub">The 1% Elite Method</div>
+    <div class="login-box">
+        <input type="text" id="pass-input" placeholder="PASSCODE">
+        <button class="btn-glow" onclick="login()">START SESSION</button>
+    </div>
 </div>
 
-<div id="auth-screen">
-    <div class="logo-circle">1%</div>
-    <h2 style="margin: 0;">Jose Guitar</h2>
-    <p style="color: #94a3b8; font-size: 0.8em;">Neuro-Entrenamiento de Guitarra</p>
-    <input type="text" id="pass-input" placeholder="Clave de Acceso">
-    <button class="btn-main" onclick="login()">DESBLOQUEAR MI POTENCIAL</button>
+<div class="top-nav" id="top-nav" style="display: none;">
+    <div class="stat-item">🔥 <span id="streak-num">0</span> DAYS</div>
+    <div class="stat-item">XP <span id="xp-num">0</span></div>
+    <div class="stat-item">RANK <span id="rank-name">NOVICE</span></div>
 </div>
 
 <div id="app-content">
-    <div class="xp-container"><div id="xp-bar"></div></div>
-    
-    <div class="main-stage">
-        <img id="lesson-img" src="" alt="Clase">
-        <div id="badge" class="badge-pop">¡LOGRO DESBLOQUEADO!</div>
-    </div>
-
-    <div class="task-box">
-        <h3 id="lesson-title" style="margin-top: 0;"></h3>
-        <p id="lesson-desc" style="font-size: 0.9em; color: #94a3b8; margin-bottom: 20px;"></p>
-        <div id="tasks-list"></div>
+    <div class="visual-frame"><img id="stage-img" src="" alt="Session"></div>
+    <div class="lesson-info">
+        <span class="day-tag" id="day-display">DAY 01</span>
+        <h2 id="title-display" style="margin: 10px 0 20px 0; font-family: 'Syncopate'; font-size: 1.2rem;"></h2>
+        <div class="task-list" id="task-list"></div>
     </div>
 </div>
 
-<div class="nav-bar" id="nav-bar" style="display: none;">
-    <button class="btn-nav" style="background: #374151; color: white;" onclick="changeDay(-1)">ANTERIOR</button>
-    <button class="btn-nav btn-next" id="timer-btn" onclick="changeDay(1)">CARGANDO ENTRENAMIENTO...</button>
+<div class="bottom-nav" id="bottom-nav" style="display: none;">
+    <button class="btn-action" style="background: #1a1f2e; color: white;" onclick="move(-1)">BACK</button>
+    <button class="btn-action btn-glow" id="next-btn" onclick="move(1)">NEXT STEP</button>
 </div>
 
 <script>
-    const KEY = "GUITARRA1";
+    const ACCESS = "GUITARRA1";
+    // CAMBIA EL TIEMPO EN EL SIGUIENTE VALOR (EN SEGUNDOS):
+    const TIEMPO_BLOQUEO = 0; 
+    
     let currentDay = parseInt(localStorage.getItem('jg_day')) || 0;
     let xp = parseInt(localStorage.getItem('jg_xp')) || 0;
-    let streak = parseInt(localStorage.getItem('jg_streak')) || 0;
     let timer;
 
-    const levels = ["NOVATO", "APRENDIZ", "RITMISTA", "SOLISTA", "MAESTRO", "LEYENDA"];
-
-    const course = [
-        { t: "La Postura del Guerrero", d: "Aprende a sostener la guitarra sin fatiga muscular.", img: "https://images.unsplash.com/photo-1550291652-6ea9114a47b1?q=80&w=800", steps: ["Siéntate en el borde de la silla", "Mástil a 45 grados", "Relaja el hombro izquierdo"] },
-        { t: "El Pilar: Do Mayor (C)", d: "El acorde más importante de la música occidental.", img: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?q=80&w=800", steps: ["Dedo 1: T1 C2", "Dedo 2: T2 C4", "Dedo 3: T3 C5", "No toques la cuerda 6"] },
-        { t: "Energía: Mi Mayor (E)", d: "Siente la potencia de las cuerdas al aire.", img: "https://images.unsplash.com/photo-1516924962500-2b4b3b99ea02?q=80&w=800", steps: ["D1 en T1 C3", "D2 en T2 C5", "D3 en T2 C4", "Rasca las 6 cuerdas"] },
-        // ... añadir hasta 30
+    const database = [
+        { t: "La Garra del Halcón", i: "https://images.unsplash.com/photo-1550291652-6ea9114a47b1?w=800", steps: [{h: "Mano Izquierda", p: "Arquea los dedos como si sostuvieras una pelota de tenis. Solo las puntas tocan las cuerdas."}, {h: "Pulgar", p: "Colócalo detrás del mástil, justo al centro, nunca lo dobles hacia los lados."}] },
+        { t: "Do Mayor: El Ancla", i: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800", steps: [{h: "Posición", p: "Dedo 1 en T1 Cuerda 2. Estira el dedo 3 hasta el T3 Cuerda 5."}, {h: "El Truco", p: "Asegúrate de que el dedo 1 no toque la primera cuerda (mi agudo)."}] },
+        { t: "Re Mayor: El Triángulo", i: "https://images.unsplash.com/photo-1516924962500-2b4b3b99ea02?w=800", steps: [{h: "Geometría", p: "D1 y D2 en traste 2. D3 en traste 3 de la segunda cuerda."}, {h: "Sonido", p: "Rasca solo las 4 cuerdas de abajo. El bajo es la cuarta cuerda al aire."}] },
+        { t: "Mi Mayor: La Fuerza", i: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800", steps: [{h: "Llenado", p: "Es el acorde más potente. Usa las 6 cuerdas."}, {h: "Memoria", p: "Siente la vibración en tu pecho al rasgar hacia abajo con fuerza."}] },
+        { t: "Sol Mayor: La Apertura", i: "https://images.unsplash.com/photo-1445985543470-41fba5c3144a?w=800", steps: [{h: "Estiramiento", p: "D2 en T3 C6 y D3 en T3 C1. Es el acorde que más estira tu mano."}, {h: "Variante", p: "Puedes usar el dedo 4 (meñique) en la cuerda 1 si te resulta más cómodo."}] },
+        { t: "La Mayor: Compacto", i: "https://images.unsplash.com/photo-1556441143-996b6d4134ee?w=800", steps: [{h: "Fila de dedos", p: "Tres dedos en el traste 2. Apriétalos bien uno contra otro."}, {h: "Atención", p: "No toques la sexta cuerda. El bajo es la quinta al aire."}] },
+        { t: "Si Séptima: El Blues", i: "https://images.unsplash.com/photo-1549419053-488687a1518b?w=800", steps: [{h: "Complejidad", p: "Usa 4 dedos. Es el primer reto real de coordinación."}, {h: "Uso", p: "Es el compañero perfecto para Mi Mayor en canciones de rock n roll."}] },
+        { t: "La Menor: Melancolía", i: "https://images.unsplash.com/photo-1558556405-3071bd8d3ee6?w=800", steps: [{h: "Transformación", p: "Es igual que Mi Mayor pero bajando cada dedo una cuerda."}, {h: "Oído", p: "Nota como el sonido se vuelve triste y profundo."}] },
+        { t: "Mi Menor: El Vacío", i: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800", steps: [{h: "Minimalismo", p: "Solo dos dedos en el traste 2 cuerdas 5 y 4."}, {h: "Práctica", p: "Cambia de Mi Mayor a Mi Menor levantando solo el dedo índice."}] },
+        { t: "Re Menor: Tensión", i: "https://images.unsplash.com/photo-1550291652-6ea9114a47b1?w=800", steps: [{h: "Punta de dedo", p: "D1 en el traste 1 de la primera cuerda. Muy preciso."}, {h: "Rasgueo", p: "Solo cuerdas agudas para un sonido brillante y triste."}] }
+        // Se autocompletarán los 30 días para que el código no falle.
     ];
 
+    // Llenado de base de datos para asegurar 30 días únicos
+    for(let i=10; i<30; i++) {
+        database.push({ t: `Fase Avanzada #${i+1}`, i: "https://images.unsplash.com/photo-1550291652-6ea9114a47b1?w=800", steps: [{h: "Técnica Pro", p: "Mantén el ritmo por 5 minutos sin mirar el mástil."}, {h: "Oído", p: "Identifica la nota más grave del acorde."}] });
+    }
+
     function login() {
-        if(document.getElementById('pass-input').value.toUpperCase() === KEY) {
+        if(document.getElementById('pass-input').value.toUpperCase() === ACCESS) {
             document.getElementById('auth-screen').style.display = 'none';
             document.getElementById('app-content').style.display = 'block';
-            document.getElementById('nav-bar').style.display = 'flex';
-            document.getElementById('top-bar').style.display = 'flex';
+            document.getElementById('bottom-nav').style.display = 'flex';
+            document.getElementById('top-nav').style.display = 'flex';
             checkStreak();
             updateUI();
-        } else { alert("Clave inválida"); }
+        }
     }
 
     function checkStreak() {
-        const lastLogin = localStorage.getItem('jg_last_date');
-        const today = new Date().toDateString();
-        
-        if (lastLogin !== today) {
-            if (lastLogin === new Date(Date.now() - 86400000).toDateString()) {
-                streak++;
-            } else if (!lastLogin) {
-                streak = 1;
-            } else {
-                streak = 1; // Racha rota
-            }
-            localStorage.setItem('jg_last_date', today);
-            localStorage.setItem('jg_streak', streak);
+        const last = localStorage.getItem('jg_last');
+        const now = new Date().toDateString();
+        let s = parseInt(localStorage.getItem('jg_s')) || 0;
+
+        if(last !== now) {
+            if(last === new Date(Date.now()-86400000).toDateString()) s++;
+            else s = 1;
+            localStorage.setItem('jg_last', now);
+            localStorage.setItem('jg_s', s);
         }
-        document.getElementById('streak-val').innerText = streak;
+        document.getElementById('streak-num').innerText = s;
     }
 
     function updateUI() {
-        const data = course[currentDay] || course[0];
-        document.getElementById('lesson-title').innerText = data.t;
-        document.getElementById('lesson-desc').innerText = data.d;
-        document.getElementById('lesson-img').src = data.img;
+        const d = database[currentDay];
+        document.getElementById('day-display').innerText = `DAY ${String(currentDay+1).padStart(2,'0')}`;
+        document.getElementById('title-display').innerText = d.t;
+        document.getElementById('stage-img').src = d.i;
         
-        // Cargar tareas
-        const list = document.getElementById('tasks-list');
+        const list = document.getElementById('task-list');
         list.innerHTML = "";
-        data.steps.forEach((s, i) => {
+        d.steps.forEach(s => {
             const div = document.createElement('div');
-            div.className = "task-card";
-            div.innerHTML = `<b>${i+1}.</b> ${s}`;
+            div.className = "task";
+            div.innerHTML = `<b>${s.h}</b><p>${s.p}</p>`;
+            div.onclick = () => div.classList.toggle('completed');
             list.appendChild(div);
         });
 
-        // Niveles y XP
-        const levelIdx = Math.floor(xp / 500);
-        document.getElementById('level-val').innerText = levels[levelIdx] || "MAESTRO";
-        document.getElementById('xp-val').innerText = xp;
-        document.getElementById('xp-bar').style.width = `${(xp % 500) / 5}%`;
-
+        document.getElementById('xp-num').innerText = xp;
+        document.getElementById('rank-name').innerText = xp > 2000 ? "MASTER" : xp > 500 ? "SOLOIST" : "NOVICE";
+        
         startTimer();
     }
 
     function startTimer() {
-        const btn = document.getElementById('timer-btn');
-        let sec = 0; // 5 minutos de práctica real
-        btn.disabled = true;
+        const btn = document.getElementById('next-btn');
+        let t = TIEMPO_BLOQUEO;
+        btn.disabled = t > 0;
 
         clearInterval(timer);
-        timer = setInterval(() => {
-            sec--;
-            let m = Math.floor(sec / 60);
-            let s = sec % 60;
-            btn.innerText = `ENTRENANDO: ${m}:${s < 10 ? '0' : ''}${s}`;
-            
-            // Sumar XP por segundo de práctica
-            xp += 1;
-            document.getElementById('xp-val').innerText = xp;
-            localStorage.setItem('jg_xp', xp);
-
-            if(sec <= 0) {
-                clearInterval(timer);
-                btn.disabled = false;
-                btn.innerText = "¡1% COMPLETADO! SIGUIENTE →";
-                showBadge("¡SESIÓN COMPLETADA +100 XP!");
-                xp += 100;
-            }
-        }, 1000);
+        if(t > 0) {
+            timer = setInterval(() => {
+                t--;
+                btn.innerText = `PRACTICING... ${t}s`;
+                if(t <= 0) {
+                    clearInterval(timer);
+                    btn.disabled = false;
+                    btn.innerText = "COMPLETE SESSION";
+                    xp += 50;
+                    localStorage.setItem('jg_xp', xp);
+                }
+            }, 1000);
+        } else {
+            btn.innerText = "COMPLETE SESSION";
+        }
     }
 
-    function showBadge(msg) {
-        const b = document.getElementById('badge');
-        b.innerText = msg;
-        b.style.display = 'block';
-        setTimeout(() => b.style.display = 'none', 3000);
-    }
-
-    function changeDay(dir) {
+    function move(dir) {
         if(currentDay + dir >= 0 && currentDay + dir < 30) {
             currentDay += dir;
             localStorage.setItem('jg_day', currentDay);
             updateUI();
-            window.scrollTo(0,0);
         }
     }
 </script>
