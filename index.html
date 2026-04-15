@@ -7,100 +7,60 @@
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;600;900&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #fbbf24; --bg: #05070a; --card: #10141d; --text: #ffffff; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; overflow-x: hidden; scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; overflow-x: hidden; scroll-behavior: smooth; }
         
-        /* PORTADA CON INTERACCIÓN */
+        /* PORTADA */
         #auth-screen { 
             height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: space-between;
             background-color: #fff;
-            background-image: 
-                linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.8) 100%), 
-                url('portada.JPG');
-            background-size: contain; 
-            background-position: center top;
-            background-repeat: no-repeat;
-            text-align: center; padding: 40px 20px;
-            box-sizing: border-box;
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.8) 100%), url('portada.JPG');
+            background-size: contain; background-position: center top; background-repeat: no-repeat;
+            text-align: center; padding: 40px 20px; box-sizing: border-box;
         }
 
-        .hero-logo { 
-            font-family: 'Syncopate', sans-serif; 
-            font-size: 2.2rem; 
-            font-weight: 700; 
-            letter-spacing: -1px; 
-            color: var(--primary); 
-            text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.9);
-            transition: transform 0.3s ease;
-        }
-        .hero-logo:hover { transform: scale(1.05); }
-
-        .hero-sub { 
-            text-transform: uppercase; letter-spacing: 4px; font-size: 0.65rem; font-weight: 900;
-            color: white; text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
-        }
+        .hero-logo { font-family: 'Syncopate', sans-serif; font-size: 2.2rem; color: var(--primary); text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.9); }
+        .hero-sub { text-transform: uppercase; letter-spacing: 4px; font-size: 0.65rem; color: white; text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8); }
         
-        /* CAJA LOGIN ANIMADA */
         .login-box { 
-            background: rgba(0, 0, 0, 0.85); 
-            padding: 30px; border-radius: 35px; border: 1px solid rgba(251, 191, 36, 0.3);
-            backdrop-filter: blur(15px); width: 100%; max-width: 300px; 
-            margin-bottom: 20px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .login-box:hover { 
-            transform: translateY(-10px); 
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            background: rgba(0, 0, 0, 0.85); padding: 30px; border-radius: 35px; border: 1px solid rgba(251, 191, 36, 0.3);
+            backdrop-filter: blur(15px); width: 100%; max-width: 300px; margin-bottom: 20px;
         }
 
-        input { 
-            width: 85%; padding: 16px; background: #111; border: 1px solid #333; color: white; 
-            border-radius: 12px; margin-bottom: 15px; text-align: center; 
-            font-family: 'Syncopate'; font-size: 0.8rem; transition: 0.3s;
-        }
-        input:focus { border-color: var(--primary); outline: none; background: #000; }
+        input { width: 85%; padding: 16px; background: #111; border: 1px solid #333; color: white; border-radius: 12px; margin-bottom: 15px; text-align: center; font-family: 'Syncopate'; }
 
-        /* BOTÓN CON PULSO (EFECTO GAMER) */
         .btn-glow { 
             background: var(--primary); color: black; border: none; padding: 18px; width: 100%; 
             border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; 
-            transition: 0.3s; position: relative; overflow: hidden;
-            animation: pulseGlow 2s infinite;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
         }
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(251, 191, 36, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
-        }
-        .btn-glow:active { transform: scale(0.95); }
 
-        /* RESTO DE LA APP */
+        /* NAVEGACIÓN SUPERIOR */
         .top-nav { width: 100%; background: #000; padding: 15px 0; display: flex; justify-content: center; gap: 20px; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 99; }
-        .stat-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
-        
-        #app-content { display: none; width: 90%; max-width: 450px; margin: 25px auto; animation: slideUp 0.6s ease-out; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .stat-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 800; }
+        .stat-item span { color: var(--primary); }
 
+        #app-content { display: none; width: 90%; max-width: 450px; margin: 25px auto; animation: slideUp 0.6s ease-out; }
+        
         .visual-frame { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 25px; margin-bottom: 20px; overflow: hidden; border: 1px solid #333; }
+        .visual-frame img { width: 100%; height: 100%; object-fit: cover; }
         
         .lesson-info { background: var(--card); border-radius: 30px; padding: 25px; border: 1px solid #222; }
         
-        /* TAREAS CON HOVER EFECT */
-        .task { 
-            background: #07090f; padding: 18px; border-radius: 18px; border: 1px solid #1a1f2e; 
-            margin-top: 10px; transition: 0.3s ease; cursor: default;
-        }
-        .task:hover { 
-            background: #111522; 
-            border-color: #2a3352;
-            transform: scale(1.02);
-        }
-        .task b { color: var(--primary); font-size: 0.75rem; text-transform: uppercase; display: block; margin-bottom: 4px; }
-        .task p { margin: 0; font-size: 0.85rem; color: #94a3b8; }
+        /* ESTILO DE TAREAS MEJORADO */
+        .task { background: #07090f; padding: 18px; border-radius: 18px; border: 1px solid #1a1f2e; margin-top: 15px; }
+        .task b { color: var(--primary); font-size: 0.7rem; display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+        .task p { margin: 0; font-size: 0.9rem; color: #cbd5e1; line-height: 1.4; }
+        .reps { display: inline-block; margin-top: 10px; font-size: 0.65rem; background: rgba(251, 191, 36, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(251, 191, 36, 0.3); font-weight: 900; }
 
-        .bottom-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; display: flex; gap: 10px; z-index: 100; }
-        .btn-action { flex: 1; padding: 16px; border-radius: 15px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; }
-        .btn-action:hover { filter: brightness(1.2); }
+        /* SECCIÓN DE VALIDACIÓN ÉLITE */
+        .check-list { margin-top: 25px; padding-top: 20px; border-top: 1px dashed #333; }
+        .check-title { font-family: 'Syncopate'; font-size: 0.7rem; color: #64748b; margin-bottom: 10px; display: block; }
+        .check-item { font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+        .check-item::before { content: '✓'; color: var(--primary); font-weight: bold; }
+
+        .bottom-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; display: flex; flex-direction: column; gap: 10px; z-index: 100; }
+        .btn-action { width: 100%; padding: 18px; border-radius: 15px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .btn-action:disabled { background: #222 !important; color: #555 !important; cursor: not-allowed; box-shadow: none; }
     </style>
 </head>
 <body>
@@ -110,15 +70,14 @@
         <div class="hero-logo">JOSE GUITAR</div>
         <div class="hero-sub">The 1% Elite Method</div>
     </div>
-    
     <div class="login-box">
         <input type="text" id="pass-input" placeholder="PASSCODE">
-        <button class="btn-glow" onclick="login()">ENTER TRAINING</button>
+        <button class="btn-glow" onclick="login()">START TRAINING</button>
     </div>
 </div>
 
 <div class="top-nav" id="top-nav" style="display: none;">
-    <div class="stat-item">🔥 <span id="streak-num">0</span> DAYS</div>
+    <div class="stat-item">🔥 <span id="streak-num">0</span> STREAK</div>
     <div class="stat-item">⭐ XP <span id="xp-num">0</span></div>
     <div class="stat-item" style="color: var(--primary);">RANK <span id="rank-name">NOVICE</span></div>
 </div>
@@ -128,32 +87,61 @@
     <div class="lesson-info">
         <span id="day-display" style="color: var(--primary); font-weight: 900; font-size: 0.7rem; letter-spacing: 2px;">DAY 01</span>
         <h2 id="title-display" style="margin: 10px 0; font-family: 'Syncopate'; font-size: 1.1rem;"></h2>
+        
         <div id="task-list"></div>
+
+        <div class="check-list">
+            <span class="check-title">CRITERIOS PARA AVANZAR:</span>
+            <div id="validation-list"></div>
+        </div>
     </div>
 </div>
 
 <div class="bottom-nav" id="bottom-nav" style="display: none;">
-    <button class="btn-action" style="background: #222; color: white;" onclick="move(-1)">BACK</button>
-    <button class="btn-action btn-glow" id="next-btn" onclick="move(1)">COMPLETE STEP</button>
+    <button class="btn-action btn-glow" id="next-btn" onclick="move(1)">COMPLETE TRAINING</button>
 </div>
 
 <script>
     const ACCESS = "GUITARRA1";
-    const TIEMPO_ESPERA = 0; 
+    // Tiempo de práctica obligatoria (300 segundos = 5 minutos)
+    const TIEMPO_ESPERA = 300; 
 
     let currentDay = parseInt(localStorage.getItem('jg_day')) || 0;
     let xp = parseInt(localStorage.getItem('jg_xp')) || 0;
     let timer;
 
     const database = [
-        { t: "La Garra del Halcón", i: "https://images.unsplash.com/photo-1550291652-6ea9114a47b1?w=800", steps: [{h: "Mano Izquierda", p: "Arquea los dedos como si sostuvieras una pelota de tenis. Solo las puntas tocan las cuerdas."}, {h: "Pulgar", p: "Colócalo detrás del mástil, justo al centro, nunca lo dobles hacia los lados."}] },
-        { t: "Do Mayor: El Ancla", i: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800", steps: [{h: "Posición", p: "Dedo 1 en T1 Cuerda 2. Estira el dedo 3 hasta el T3 Cuerda 5."}, {h: "El Truco", p: "Asegúrate de que el dedo 1 no toque la primera cuerda (mi agudo)."}] },
-        { t: "Re Mayor: El Triángulo", i: "https://images.unsplash.com/photo-1516924962500-2b4b3b99ea02?w=800", steps: [{h: "Geometría", p: "D1 y D2 en traste 2. D3 en traste 3 de la segunda cuerda."}, {h: "Sonido", p: "Rasca solo las 4 cuerdas de abajo. El bajo es la cuarta cuerda al aire."}] }
+        { 
+            t: "La Garra del Halcón", 
+            i: "https://images.unsplash.com/photo-1550291652-6ea9114a47b1?w=800", 
+            steps: [
+                {h: "Postura Base", p: "Arquea los dedos sobre el mástil. Solo las yemas deben tocar las cuerdas.", r: "Sostén 60 segundos"},
+                {h: "El Pulgar Elite", p: "Presiona el centro del mástil con el pulgar. No lo saques por arriba.", r: "20 repeticiones"}
+            ],
+            check: ["¿Tus dedos están arqueados?", "¿El sonido es limpio?", "¿Tu pulgar está centrado?"]
+        },
+        { 
+            t: "Do Mayor Profundo", 
+            i: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800", 
+            steps: [
+                {h: "El Ancla", p: "Coloca el dedo 3 en el traste 3 de la cuerda 5. No lo muevas.", r: "Mantén la presión"},
+                {h: "Limpieza", p: "Toca una por una las cuerdas. Si una suena sorda, ajusta el arco.", r: "10 veces cada cuerda"}
+            ],
+            check: ["¿Suenan todas las cuerdas?", "¿Dedo 1 no toca la cuerda inferior?"]
+        }
     ];
 
-    // Autocompletar 30 días para estabilidad
+    // Autogenerador de días con estructura premium
     for(let i=database.length; i<30; i++) {
-        database.push({ t: `Técnica Nivel ${i+1}`, i: "https://images.unsplash.com/photo-1550291652-6ea9114a47b1?w=800", steps: [{h: "Enfoque", p: "Repite el cambio de acorde 20 veces sin mirar la mano."}, {h: "Desafío", p: "Intenta que todas las cuerdas suenen cristalinas."}] });
+        database.push({ 
+            t: `Maestría Nivel ${i+1}`, 
+            i: "https://images.unsplash.com/photo-1516924962500-2b4b3b99ea02?w=800", 
+            steps: [
+                {h: "Velocidad", p: "Cambia entre los acordes de ayer y hoy sin detener el ritmo.", r: "50 Cambios"},
+                {h: "Memoria Ciega", p: "Cierra los ojos y coloca la mano en la posición exacta.", r: "20 Aciertos"}
+            ],
+            check: ["¿Lo haces sin mirar?", "¿El cambio es instantáneo?"]
+        });
     }
 
     function login() {
@@ -162,26 +150,8 @@
             document.getElementById('app-content').style.display = 'block';
             document.getElementById('bottom-nav').style.display = 'flex';
             document.getElementById('top-nav').style.display = 'flex';
-            checkStreak();
             updateUI();
         } else { alert("PASSCODE INCORRECTO"); }
-    }
-
-    function checkStreak() {
-        const last = localStorage.getItem('jg_last_date');
-        const today = new Date().toDateString();
-        let s = parseInt(localStorage.getItem('jg_streak_val')) || 0;
-
-        if(!last) { s = 1; } 
-        else if(last !== today) {
-            const yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            if(last === yesterday.toDateString()) { s++; } 
-            else { s = 1; }
-        }
-        localStorage.setItem('jg_last_date', today);
-        localStorage.setItem('jg_streak_val', s);
-        document.getElementById('streak-num').innerText = s;
     }
 
     function updateUI() {
@@ -189,50 +159,64 @@
         document.getElementById('day-display').innerText = `DAY ${String(currentDay+1).padStart(2,'0')}`;
         document.getElementById('title-display').innerText = d.t;
         document.getElementById('stage-img').src = d.i;
+        
+        document.getElementById('streak-num').innerText = currentDay + 1;
+        document.getElementById('xp-num').innerText = xp;
+        document.getElementById('rank-name').innerText = xp > 3000 ? "LEGEND" : xp > 1000 ? "SOLOIST" : "NOVICE";
+
+        // Renderizar Tareas con Repeticiones
         const list = document.getElementById('task-list');
         list.innerHTML = "";
         d.steps.forEach(s => {
             const div = document.createElement('div');
             div.className = "task";
-            div.innerHTML = `<b>${s.h}</b><p>${s.p}</p>`;
+            div.innerHTML = `<b>${s.h}</b><p>${s.p}</p><span class="reps">🎯 REPS: ${s.r}</span>`;
             list.appendChild(div);
         });
-        document.getElementById('xp-num').innerText = xp;
-        document.getElementById('rank-name').innerText = xp > 1500 ? "SOLOIST" : xp > 500 ? "APPRENTICE" : "NOVICE";
+
+        // Renderizar Criterios de Éxito
+        const vList = document.getElementById('validation-list');
+        vList.innerHTML = "";
+        d.check.forEach(c => {
+            const div = document.createElement('div');
+            div.className = "check-item";
+            div.innerText = c;
+            vList.appendChild(div);
+        });
+        
         startTimer();
     }
 
     function startTimer() {
         const btn = document.getElementById('next-btn');
         let t = TIEMPO_ESPERA;
-        if(t > 0) {
-            btn.disabled = true;
-            clearInterval(timer);
-            timer = setInterval(() => {
-                t--;
-                btn.innerText = `PRACTICING... ${t}s`;
-                if(t <= 0) {
-                    clearInterval(timer);
-                    btn.disabled = false;
-                    btn.innerText = "COMPLETE STEP";
-                }
-            }, 1000);
-        } else {
-            btn.disabled = false;
-            btn.innerText = "COMPLETE STEP";
-        }
+        btn.disabled = true;
+        
+        clearInterval(timer);
+        timer = setInterval(() => {
+            t--;
+            let mins = Math.floor(t / 60);
+            let secs = t % 60;
+            btn.innerText = `PRACTICA OBLIGATORIA: ${mins}:${secs < 10 ? '0'+secs : secs}`;
+            
+            if(t <= 0) {
+                clearInterval(timer);
+                btn.disabled = false;
+                btn.innerText = "COMPLETE DAY " + (currentDay + 1) + " ✓";
+            }
+        }, 1000);
     }
 
     function move(dir) {
-        if(currentDay + dir >= 0 && currentDay + dir < 30) {
-            if(dir === 1) { 
-                xp += 100;
-                localStorage.setItem('jg_xp', xp);
-            }
-            currentDay += dir;
+        if(currentDay < 29) {
+            xp += 250; // Más XP por completar un día difícil
+            localStorage.setItem('jg_xp', xp);
+            currentDay++;
             localStorage.setItem('jg_day', currentDay);
             updateUI();
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            alert("MAESTRÍA COMPLETADA. ERES UN ELITE.");
         }
     }
 </script>
