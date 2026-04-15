@@ -9,21 +9,27 @@
         :root { --primary: #fbbf24; --bg: #05070a; --card: #10141d; --text: #ffffff; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
         
-        /* PORTADA CON TU FOTO PERSONALIZADA */
+        /* PORTADA CORREGIDA PARA MOSTRAR TU CARA */
         #auth-screen { 
-            height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            /* SE LLAMA portada.JPG - Asegúrate de subirla a la raíz de GitHub */
-            background-image: linear-gradient(to bottom, rgba(5, 7, 10, 0.3) 0%, rgba(5, 7, 10, 1) 95%), url('portada.JPG');
-            background-size: cover;
-            background-position: center;
+            height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; /* Alinea el contenido arriba */
+            
+            /* --- CAMBIOS AQUÍ --- */
+            background-color: #000; /* Fondo negro para rellenar espacios */
+            background-image: url('portada.JPG');
+            
+            /* Ajusta la imagen DENTRO de la pantalla sin cortarla */
+            background-size: contain; 
+            background-position: center top; /* Centra horizontalmente, alinea arriba */
             background-repeat: no-repeat;
+            /* -------------------- */
+
             text-align: center; padding: 0 20px;
         }
 
-        .hero-logo { font-family: 'Syncopate', sans-serif; font-size: 2.2rem; font-weight: 700; letter-spacing: -1px; color: var(--primary); margin-bottom: 5px; text-shadow: 0 0 15px rgba(251, 191, 36, 0.5); }
+        .hero-logo { font-family: 'Syncopate', sans-serif; font-size: 2.2rem; font-weight: 700; letter-spacing: -1px; color: var(--primary); margin-top: 30px; /* Espacio arriba */ margin-bottom: 5px; text-shadow: 0 0 15px rgba(251, 191, 36, 0.5); }
         .hero-sub { text-transform: uppercase; letter-spacing: 4px; font-size: 0.65rem; opacity: 0.8; margin-bottom: 30px; }
         
-        .login-box { background: rgba(0,0,0,0.6); padding: 30px; border-radius: 35px; border: 1px solid rgba(251,191,36,0.2); backdrop-filter: blur(8px); width: 100%; max-width: 300px; }
+        .login-box { background: rgba(0,0,0,0.6); padding: 30px; border-radius: 35px; border: 1px solid rgba(251,191,36,0.2); backdrop-filter: blur(8px); width: 100%; max-width: 300px; margin-top: auto; /* Empuja la caja hacia abajo */ margin-bottom: 50px; /* Espacio abajo */ }
         input { width: 85%; padding: 16px; background: #000; border: 1px solid #444; color: white; border-radius: 12px; margin-bottom: 15px; text-align: center; font-family: 'Syncopate'; font-size: 0.8rem; }
         .btn-glow { background: var(--primary); color: black; border: none; padding: 18px; width: 100%; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: 0.3s; box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3); }
 
