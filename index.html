@@ -7,59 +7,110 @@
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;600;900&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #fbbf24; --bg: #05070a; --card: #10141d; --text: #ffffff; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; overflow-x: hidden; scroll-behavior: smooth; }
         
-        /* PORTADA CORREGIDA PARA MOSTRAR TU CARA */
+        /* PORTADA CON INTERACCIÓN */
         #auth-screen { 
-            height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; /* Alinea el contenido arriba */
-            
-            /* --- CAMBIOS AQUÍ --- */
-            background-color: #000; /* Fondo negro para rellenar espacios */
-            background-image: url('portada.JPG');
-            
-            /* Ajusta la imagen DENTRO de la pantalla sin cortarla */
+            height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+            background-color: #fff;
+            background-image: 
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.8) 100%), 
+                url('portada.JPG');
             background-size: contain; 
-            background-position: center top; /* Centra horizontalmente, alinea arriba */
+            background-position: center top;
             background-repeat: no-repeat;
-            /* -------------------- */
-
-            text-align: center; padding: 0 20px;
+            text-align: center; padding: 40px 20px;
+            box-sizing: border-box;
         }
 
-        .hero-logo { font-family: 'Syncopate', sans-serif; font-size: 2.2rem; font-weight: 700; letter-spacing: -1px; color: var(--primary); margin-top: 30px; /* Espacio arriba */ margin-bottom: 5px; text-shadow: 0 0 15px rgba(251, 191, 36, 0.5); }
-        .hero-sub { text-transform: uppercase; letter-spacing: 4px; font-size: 0.65rem; opacity: 0.8; margin-bottom: 30px; }
-        
-        .login-box { background: rgba(0,0,0,0.6); padding: 30px; border-radius: 35px; border: 1px solid rgba(251,191,36,0.2); backdrop-filter: blur(8px); width: 100%; max-width: 300px; margin-top: auto; /* Empuja la caja hacia abajo */ margin-bottom: 50px; /* Espacio abajo */ }
-        input { width: 85%; padding: 16px; background: #000; border: 1px solid #444; color: white; border-radius: 12px; margin-bottom: 15px; text-align: center; font-family: 'Syncopate'; font-size: 0.8rem; }
-        .btn-glow { background: var(--primary); color: black; border: none; padding: 18px; width: 100%; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: 0.3s; box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3); }
+        .hero-logo { 
+            font-family: 'Syncopate', sans-serif; 
+            font-size: 2.2rem; 
+            font-weight: 700; 
+            letter-spacing: -1px; 
+            color: var(--primary); 
+            text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.9);
+            transition: transform 0.3s ease;
+        }
+        .hero-logo:hover { transform: scale(1.05); }
 
-        /* STATUS BAR (RACHAS Y XP) */
+        .hero-sub { 
+            text-transform: uppercase; letter-spacing: 4px; font-size: 0.65rem; font-weight: 900;
+            color: white; text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+        }
+        
+        /* CAJA LOGIN ANIMADA */
+        .login-box { 
+            background: rgba(0, 0, 0, 0.85); 
+            padding: 30px; border-radius: 35px; border: 1px solid rgba(251, 191, 36, 0.3);
+            backdrop-filter: blur(15px); width: 100%; max-width: 300px; 
+            margin-bottom: 20px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .login-box:hover { 
+            transform: translateY(-10px); 
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        input { 
+            width: 85%; padding: 16px; background: #111; border: 1px solid #333; color: white; 
+            border-radius: 12px; margin-bottom: 15px; text-align: center; 
+            font-family: 'Syncopate'; font-size: 0.8rem; transition: 0.3s;
+        }
+        input:focus { border-color: var(--primary); outline: none; background: #000; }
+
+        /* BOTÓN CON PULSO (EFECTO GAMER) */
+        .btn-glow { 
+            background: var(--primary); color: black; border: none; padding: 18px; width: 100%; 
+            border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; 
+            transition: 0.3s; position: relative; overflow: hidden;
+            animation: pulseGlow 2s infinite;
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(251, 191, 36, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+        }
+        .btn-glow:active { transform: scale(0.95); }
+
+        /* RESTO DE LA APP */
         .top-nav { width: 100%; background: #000; padding: 15px 0; display: flex; justify-content: center; gap: 20px; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 99; }
         .stat-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
-        .stat-item span { color: var(--primary); }
+        
+        #app-content { display: none; width: 90%; max-width: 450px; margin: 25px auto; animation: slideUp 0.6s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* APP CONTENT */
-        #app-content { display: none; width: 90%; max-width: 450px; margin: 25px auto; animation: fadeIn 0.6s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .visual-frame { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 25px; margin-bottom: 20px; overflow: hidden; border: 1px solid #333; position: relative; }
-        .visual-frame img { width: 100%; height: 100%; object-fit: cover; }
+        .visual-frame { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 25px; margin-bottom: 20px; overflow: hidden; border: 1px solid #333; }
         
         .lesson-info { background: var(--card); border-radius: 30px; padding: 25px; border: 1px solid #222; }
-        .task { background: #07090f; padding: 18px; border-radius: 18px; border: 1px solid #1a1f2e; margin-top: 10px; }
+        
+        /* TAREAS CON HOVER EFECT */
+        .task { 
+            background: #07090f; padding: 18px; border-radius: 18px; border: 1px solid #1a1f2e; 
+            margin-top: 10px; transition: 0.3s ease; cursor: default;
+        }
+        .task:hover { 
+            background: #111522; 
+            border-color: #2a3352;
+            transform: scale(1.02);
+        }
         .task b { color: var(--primary); font-size: 0.75rem; text-transform: uppercase; display: block; margin-bottom: 4px; }
         .task p { margin: 0; font-size: 0.85rem; color: #94a3b8; }
 
-        /* BOTONES ABAJO */
         .bottom-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; display: flex; gap: 10px; z-index: 100; }
-        .btn-action { flex: 1; padding: 16px; border-radius: 15px; border: none; font-weight: 800; cursor: pointer; }
+        .btn-action { flex: 1; padding: 16px; border-radius: 15px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .btn-action:hover { filter: brightness(1.2); }
     </style>
 </head>
 <body>
 
 <div id="auth-screen">
-    <div class="hero-logo">JOSE GUITAR</div>
-    <div class="hero-sub">The 1% Elite Method</div>
+    <div>
+        <div class="hero-logo">JOSE GUITAR</div>
+        <div class="hero-sub">The 1% Elite Method</div>
+    </div>
+    
     <div class="login-box">
         <input type="text" id="pass-input" placeholder="PASSCODE">
         <button class="btn-glow" onclick="login()">ENTER TRAINING</button>
@@ -68,8 +119,8 @@
 
 <div class="top-nav" id="top-nav" style="display: none;">
     <div class="stat-item">🔥 <span id="streak-num">0</span> DAYS</div>
-    <div class="stat-item">XP <span id="xp-num">0</span></div>
-    <div class="stat-item">RANK <span id="rank-name">NOVICE</span></div>
+    <div class="stat-item">⭐ XP <span id="xp-num">0</span></div>
+    <div class="stat-item" style="color: var(--primary);">RANK <span id="rank-name">NOVICE</span></div>
 </div>
 
 <div id="app-content">
@@ -88,10 +139,7 @@
 
 <script>
     const ACCESS = "GUITARRA1";
-    
-    // --- AQUÍ CONTROLAS EL TIEMPO EN SEGUNDOS ---
     const TIEMPO_ESPERA = 0; 
-    // --------------------------------------------
 
     let currentDay = parseInt(localStorage.getItem('jg_day')) || 0;
     let xp = parseInt(localStorage.getItem('jg_xp')) || 0;
@@ -100,17 +148,11 @@
     const database = [
         { t: "La Garra del Halcón", i: "https://images.unsplash.com/photo-1550291652-6ea9114a47b1?w=800", steps: [{h: "Mano Izquierda", p: "Arquea los dedos como si sostuvieras una pelota de tenis. Solo las puntas tocan las cuerdas."}, {h: "Pulgar", p: "Colócalo detrás del mástil, justo al centro, nunca lo dobles hacia los lados."}] },
         { t: "Do Mayor: El Ancla", i: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800", steps: [{h: "Posición", p: "Dedo 1 en T1 Cuerda 2. Estira el dedo 3 hasta el T3 Cuerda 5."}, {h: "El Truco", p: "Asegúrate de que el dedo 1 no toque la primera cuerda (mi agudo)."}] },
-        { t: "Re Mayor: El Triángulo", i: "https://images.unsplash.com/photo-1516924962500-2b4b3b99ea02?w=800", steps: [{h: "Geometría", p: "D1 y D2 en traste 2. D3 en traste 3 de la segunda cuerda."}, {h: "Sonido", p: "Rasca solo las 4 cuerdas de abajo. El bajo es la cuarta cuerda al aire."}] },
-        { t: "Mi Mayor: La Fuerza", i: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800", steps: [{h: "Llenado", p: "Es el acorde más potente. Usa las 6 cuerdas."}, {h: "Memoria", p: "Siente la vibración en tu pecho al rasgar hacia abajo con fuerza."}] },
-        { t: "Sol Mayor: La Apertura", i: "https://images.unsplash.com/photo-1445985543470-41fba5c3144a?w=800", steps: [{h: "Estiramiento", p: "D2 en T3 C6 y D3 en T3 C1. Es el acorde que más estira tu mano."}, {h: "Variante", p: "Puedes usar el dedo 4 (meñique) en la cuerda 1 si te resulta más cómodo."}] },
-        { t: "La Mayor: Compacto", i: "https://images.unsplash.com/photo-1556441143-996b6d4134ee?w=800", steps: [{h: "Fila de dedos", p: "Tres dedos en el traste 2. Apriétalos bien uno contra otro."}, {h: "Atención", p: "No toques la sexta cuerda. El bajo es la quinta al aire."}] },
-        { t: "Si Séptima: El Blues", i: "https://images.unsplash.com/photo-1549419053-488687a1518b?w=800", steps: [{h: "Complejidad", p: "Usa 4 dedos. Es el primer reto real de coordinación."}, {h: "Uso", p: "Es el compañero perfecto para Mi Mayor en canciones de rock n roll."}] },
-        { t: "La Menor: Melancolía", i: "https://images.unsplash.com/photo-1558556405-3071bd8d3ee6?w=800", steps: [{h: "Transformación", p: "Es igual que Mi Mayor pero bajando cada dedo una cuerda."}, {h: "Oído", p: "Nota como el sonido se vuelve triste y profundo."}] },
-        { t: "Mi Menor: El Vacío", i: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800", steps: [{h: "Minimalismo", p: "Solo dos dedos en el traste 2 cuerdas 5 y 4."}, {h: "Práctica", p: "Cambia de Mi Mayor a Mi Menor levantando solo el dedo índice."}] },
-        { t: "Re Menor: Tensión", i: "https://images.unsplash.com/photo-1550291652-6ea9114a47b1?w=800", steps: [{h: "Punta de dedo", p: "D1 en el traste 1 de la primera cuerda. Muy preciso."}, {h: "Rasgueo", p: "Solo cuerdas agudas para un sonido brillante y triste."}] }
+        { t: "Re Mayor: El Triángulo", i: "https://images.unsplash.com/photo-1516924962500-2b4b3b99ea02?w=800", steps: [{h: "Geometría", p: "D1 y D2 en traste 2. D3 en traste 3 de la segunda cuerda."}, {h: "Sonido", p: "Rasca solo las 4 cuerdas de abajo. El bajo es la cuarta cuerda al aire."}] }
     ];
 
-    for(let i=10; i<30; i++) {
+    // Autocompletar 30 días para estabilidad
+    for(let i=database.length; i<30; i++) {
         database.push({ t: `Técnica Nivel ${i+1}`, i: "https://images.unsplash.com/photo-1550291652-6ea9114a47b1?w=800", steps: [{h: "Enfoque", p: "Repite el cambio de acorde 20 veces sin mirar la mano."}, {h: "Desafío", p: "Intenta que todas las cuerdas suenen cristalinas."}] });
     }
 
@@ -130,16 +172,12 @@
         const today = new Date().toDateString();
         let s = parseInt(localStorage.getItem('jg_streak_val')) || 0;
 
-        if(!last) { 
-            s = 1; 
-        } else if(last !== today) {
+        if(!last) { s = 1; } 
+        else if(last !== today) {
             const yesterday = new Date();
             yesterday.setDate(yesterday.getDate() - 1);
-            if(last === yesterday.toDateString()) {
-                s++; 
-            } else {
-                s = 1; 
-            }
+            if(last === yesterday.toDateString()) { s++; } 
+            else { s = 1; }
         }
         localStorage.setItem('jg_last_date', today);
         localStorage.setItem('jg_streak_val', s);
@@ -151,7 +189,6 @@
         document.getElementById('day-display').innerText = `DAY ${String(currentDay+1).padStart(2,'0')}`;
         document.getElementById('title-display').innerText = d.t;
         document.getElementById('stage-img').src = d.i;
-        
         const list = document.getElementById('task-list');
         list.innerHTML = "";
         d.steps.forEach(s => {
@@ -160,17 +197,14 @@
             div.innerHTML = `<b>${s.h}</b><p>${s.p}</p>`;
             list.appendChild(div);
         });
-
         document.getElementById('xp-num').innerText = xp;
         document.getElementById('rank-name').innerText = xp > 1500 ? "SOLOIST" : xp > 500 ? "APPRENTICE" : "NOVICE";
-        
         startTimer();
     }
 
     function startTimer() {
         const btn = document.getElementById('next-btn');
         let t = TIEMPO_ESPERA;
-        
         if(t > 0) {
             btn.disabled = true;
             clearInterval(timer);
@@ -198,7 +232,7 @@
             currentDay += dir;
             localStorage.setItem('jg_day', currentDay);
             updateUI();
-            window.scrollTo(0,0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }
 </script>
