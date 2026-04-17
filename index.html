@@ -7,43 +7,45 @@
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;600;900&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #fbbf24; --bg: #05070a; --card: #10141d; --text: #ffffff; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 150px; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 150px; }
         
-        /* PORTADA */
-        #auth-screen { 
-            height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('portada.JPG') center/cover;
-            text-align: center; padding: 20px; box-sizing: border-box;
-        }
-
-        .hero-logo { font-family: 'Syncopate', sans-serif; font-size: 2.2rem; color: var(--primary); margin-bottom: 10px; }
-        .login-box { background: rgba(0,0,0,0.8); padding: 30px; border-radius: 30px; border: 1px solid rgba(251,191,36,0.2); width: 100%; max-width: 300px; }
-        input { width: 100%; padding: 15px; background: #111; border: 1px solid #333; color: white; border-radius: 12px; margin-bottom: 15px; text-align: center; box-sizing: border-box; }
-
-        /* NAV */
+        #auth-screen { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; text-align: center; }
+        .hero-logo { font-family: 'Syncopate', sans-serif; font-size: 2rem; color: var(--primary); margin-bottom: 20px; }
+        
         .top-nav { width: 100%; background: #000; padding: 15px 0; display: none; justify-content: center; gap: 20px; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 99; }
-        .stat-item { font-size: 0.7rem; font-weight: 800; }
+        .stat-item { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
 
-        /* CONTENIDO */
-        #app-content { display: none; width: 95%; max-width: 500px; margin: 20px auto; }
+        #app-content { display: none; width: 90%; max-width: 450px; margin: 20px auto; }
 
-        /* VIDEO */
-        .video-container { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 20px; overflow: hidden; margin-bottom: 20px; border: 1px solid #333; }
-        .video-container iframe { width: 100%; height: 100%; border: none; }
-
-        /* MÁSTIL */
-        .fretboard-card { background: var(--card); border-radius: 25px; padding: 20px; margin-bottom: 20px; border: 1px solid #222; }
-        .fretboard { display: grid; grid-template-columns: repeat(6, 1fr); background: #1a1a1a; padding: 10px; border-radius: 8px; height: 160px; border-left: 4px solid #888; }
-        .string { display: flex; flex-direction: column; justify-content: space-around; align-items: center; border-right: 1px solid #333; }
-        .fret-mark { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #444; }
-        .active-note { background: var(--primary); color: #000 !important; box-shadow: 0 0 15px var(--primary); font-weight: 900; }
-
-        /* TABS */
-        .tab-display { font-family: monospace; background: #000; padding: 15px; border-radius: 12px; color: var(--primary); overflow-x: auto; white-space: pre; font-size: 13px; border: 1px solid #222; margin: 10px 0; }
+        /* MÁSTIL VERTICAL ELITE */
+        .fretboard-container { 
+            background: var(--card); border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid #222;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .fretboard-vertical { 
+            display: flex; background: #1a1a1a; padding: 10px; border-radius: 5px; 
+            border-top: 6px solid #ddd; /* La cejuela */
+            position: relative; width: 180px; justify-content: space-between;
+        }
+        .string-v { width: 2px; background: #444; height: 220px; position: relative; display: flex; flex-direction: column; }
+        .fret-line { position: absolute; width: 100%; height: 2px; background: #333; left: 0; }
         
-        .lesson-info { background: var(--card); border-radius: 25px; padding: 20px; border: 1px solid #222; }
-        .task { background: #07090f; padding: 15px; border-radius: 15px; border: 1px solid #1a1f2e; margin-top: 10px; }
-        .btn-glow { background: var(--primary); color: #000; border: none; padding: 18px; border-radius: 15px; font-weight: 900; width: 100%; cursor: pointer; }
+        /* Posiciones de los trastes */
+        .f1 { top: 44px; } .f2 { top: 88px; } .f3 { top: 132px; } .f4 { top: 176px; }
+
+        .note-dot { 
+            width: 24px; height: 24px; background: var(--primary); border-radius: 50%; 
+            position: absolute; left: 50%; transform: translate(-50%, -50%); 
+            z-index: 10; display: flex; align-items: center; justify-content: center;
+            color: #000; font-size: 10px; font-weight: 900; box-shadow: 0 0 15px var(--primary);
+        }
+        .open-string { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); color: var(--primary); font-size: 12px; font-weight: 900; }
+        .muted-string { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); color: #ff4444; font-size: 12px; }
+
+        .video-container { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 15px; overflow: hidden; margin-bottom: 20px; border: 1px solid #333; }
+        .tab-display { font-family: monospace; background: #000; padding: 15px; border-radius: 10px; color: var(--primary); white-space: pre; font-size: 14px; margin: 10px 0; border: 1px solid #222; }
+        
+        .btn-glow { background: var(--primary); color: #000; border: none; padding: 18px; border-radius: 15px; font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; }
         .bottom-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 400px; display: none; }
     </style>
 </head>
@@ -51,131 +53,112 @@
 
 <div id="auth-screen">
     <div class="hero-logo">JOSE GUITAR</div>
-    <div class="login-box">
-        <input type="text" id="pass-input" placeholder="PASSCODE">
-        <button class="btn-glow" onclick="login()">ENTRAR AL ELITE</button>
-    </div>
+    <input type="text" id="pass-input" placeholder="PASSCODE" style="padding:15px; border-radius:10px; border:none; text-align:center; margin-bottom:10px;">
+    <button class="btn-glow" style="width:200px" onclick="login()">ENTRAR</button>
 </div>
 
 <div class="top-nav" id="top-nav">
     <div class="stat-item">🔥 DÍA <span id="streak-num">1</span></div>
-    <div class="stat-item">⭐ XP <span id="xp-num">0</span></div>
+    <div class="stat-item" style="color:var(--primary)">MODE: ELITE</div>
 </div>
 
 <div id="app-content">
     <div class="video-container">
-        <iframe id="lesson-video" src="" allowfullscreen></iframe>
+        <iframe id="lesson-video" src="" style="width:100%; height:100%; border:none;" allowfullscreen></iframe>
     </div>
 
-    <div class="fretboard-card">
-        <span style="font-family: 'Syncopate'; font-size: 0.6rem; color: var(--primary);">DIAGRAMA: <span id="chord-title">Cargando...</span></span>
-        <div class="fretboard" id="fretboard"></div>
+    <div class="fretboard-container">
+        <span id="chord-name" style="font-family:'Syncopate'; color:var(--primary); margin-bottom:20px;">ACORDE</span>
+        <div class="fretboard-vertical" id="fret-v">
+            <div class="string-v" id="s0"><div class="fret-line f1"></div><div class="fret-line f2"></div><div class="fret-line f3"></div><div class="fret-line f4"></div></div>
+            <div class="string-v" id="s1"><div class="fret-line f1"></div><div class="fret-line f2"></div><div class="fret-line f3"></div><div class="fret-line f4"></div></div>
+            <div class="string-v" id="s2"><div class="fret-line f1"></div><div class="fret-line f2"></div><div class="fret-line f3"></div><div class="fret-line f4"></div></div>
+            <div class="string-v" id="s3"><div class="fret-line f1"></div><div class="fret-line f2"></div><div class="fret-line f3"></div><div class="fret-line f4"></div></div>
+            <div class="string-v" id="s4"><div class="fret-line f1"></div><div class="fret-line f2"></div><div class="fret-line f3"></div><div class="fret-line f4"></div></div>
+            <div class="string-v" id="s5"><div class="fret-line f1"></div><div class="fret-line f2"></div><div class="fret-line f3"></div><div class="fret-line f4"></div></div>
+        </div>
     </div>
 
-    <div class="lesson-info">
-        <span id="day-display" style="color: var(--primary); font-weight: 900; font-size: 0.7rem;">DÍA 01</span>
-        <h2 id="title-display" style="margin: 5px 0; font-family: 'Syncopate'; font-size: 1rem;"></h2>
-        
+    <div style="background:var(--card); padding:20px; border-radius:20px; border:1px solid #222;">
+        <h3 id="lesson-title" style="margin:0; font-size:1.1rem;"></h3>
+        <p id="lesson-desc" style="font-size:0.9rem; opacity:0.7;"></p>
         <div class="tab-display" id="tab-content"></div>
-        <div id="task-list"></div>
     </div>
 </div>
 
 <div class="bottom-nav" id="bottom-nav">
-    <button class="btn-glow" id="next-btn" onclick="move()">COMPLETAR LECCIÓN</button>
+    <button class="btn-glow" id="next-btn" onclick="nextDay()">SIGUIENTE LECCIÓN</button>
 </div>
 
 <script>
     const ACCESS = "GUITARRA1";
-    const TIEMPO_ESPERA = 0; // PRÁCTICA EN CERO PARA REVISIÓN
-    
-    // Forzamos inicio en 0 para que no salte al 30
-    let currentDay = 0; 
-    let xp = 0;
+    let currentDay = 0;
 
-    const database = [
-        { 
-            t: "Acorde Maestro: Do Mayor", 
-            v: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
-            chordName: "C Major",
-            chordPattern: [null, 3, 2, 0, 1, 0],
-            tabs: "E|---0---|\nB|---1---|\nG|---0---|\nD|---2---|\nA|---3---|\nE|-------|",
-            steps: [{h: "Posición", p: "Cierra los ojos y busca la forma del Do.", r: "10 veces"}]
-        },
-        { 
-            t: "Rock Power: Sol Mayor", 
-            v: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
-            chordName: "G Major",
-            chordPattern: [3, 2, 0, 0, 3, 3],
-            tabs: "E|---3---|\nB|---3---|\nG|---0---|\nD|---0---|\nA|---2---|\nE|---3---|",
-            steps: [{h: "Rasgueo", p: "Toca las 6 cuerdas con fuerza.", r: "20 veces"}]
-        }
+    // PLAN DE 30 DÍAS
+    const plan = [
+        // MAYORES (1-7)
+        { t: "Do Mayor (C)", d: "C", p: ["X", 3, 2, 0, 1, 0], tab: "E|-0-|\nB|-1-|\nG|-0-|\nD|-2-|\nA|-3-|\nE|-X-|", v: "URL_VIDEO" },
+        { t: "Re Mayor (D)", d: "D", p: ["X", "X", 0, 2, 3, 2], tab: "E|-2-|\nB|-3-|\nG|-2-|\nD|-0-|\nA|-X-|\nE|-X-|", v: "URL_VIDEO" },
+        { t: "Mi Mayor (E)", d: "E", p: [0, 2, 2, 1, 0, 0], tab: "E|-0-|\nB|-0-|\nG|-1-|\nD|-2-|\nA|-2-|\nE|-0-|", v: "URL_VIDEO" },
+        { t: "Fa Mayor (F)", d: "F (Cejilla)", p: [1, 3, 3, 2, 1, 1], tab: "E|-1-|\nB|-1-|\nG|-2-|\nD|-3-|\nA|-3-|\nE|-1-|", v: "URL_VIDEO" },
+        { t: "Sol Mayor (G)", d: "G", p: [3, 2, 0, 0, 3, 3], tab: "E|-3-|\nB|-3-|\nG|-0-|\nD|-0-|\nA|-2-|\nE|-3-|", v: "URL_VIDEO" },
+        { t: "La Mayor (A)", d: "A", p: ["X", 0, 2, 2, 2, 0], tab: "E|-0-|\nB|-2-|\nG|-2-|\nD|-2-|\nA|-0-|\nE|-X-|", v: "URL_VIDEO" },
+        { t: "Si Mayor (B)", d: "B (Cejilla)", p: ["X", 2, 4, 4, 4, 2], tab: "E|-2-|\nB|-4-|\nG|-4-|\nD|-4-|\nA|-2-|\nE|-X-|", v: "URL_VIDEO" },
+        
+        // MENORES (8-14)
+        { t: "Do Menor (Cm)", d: "Cm", p: ["X", 3, 5, 5, 4, 3], tab: "E|-3-|\nB|-4-|\nG|-5-|\nD|-5-|\nA|-3-|\nE|-X-|", v: "URL_VIDEO" },
+        { t: "Re Menor (Dm)", d: "Dm", p: ["X", "X", 0, 2, 3, 1], tab: "E|-1-|\nB|-3-|\nG|-2-|\nD|-0-|\nA|-X-|\nE|-X-|", v: "URL_VIDEO" },
+        { t: "Mi Menor (Em)", d: "Em", p: [0, 2, 2, 0, 0, 0], tab: "E|-0-|\nB|-0-|\nG|-0-|\nD|-2-|\nA|-2-|\nE|-0-|", v: "URL_VIDEO" },
+        { t: "Fa Menor (Fm)", d: "Fm", p: [1, 3, 3, 1, 1, 1], tab: "E|-1-|\nB|-1-|\nG|-1-|\nD|-3-|\nA|-3-|\nE|-1-|", v: "URL_VIDEO" },
+        { t: "Sol Menor (Gm)", d: "Gm", p: [3, 5, 5, 3, 3, 3], tab: "E|-3-|\nB|-3-|\nG|-3-|\nD|-5-|\nA|-5-|\nE|-3-|", v: "URL_VIDEO" },
+        { t: "La Menor (Am)", d: "Am", p: ["X", 0, 2, 2, 1, 0], tab: "E|-0-|\nB|-1-|\nG|-2-|\nD|-2-|\nA|-0-|\nE|-X-|", v: "URL_VIDEO" },
+        { t: "Si Menor (Bm)", d: "Bm", p: ["X", 2, 4, 4, 3, 2], tab: "E|-2-|\nB|-3-|\nG|-4-|\nD|-4-|\nA|-2-|\nE|-X-|", v: "URL_VIDEO" },
+
+        // SEPTIMOS (15-21)
+        { t: "Do Séptima (C7)", d: "C7", p: ["X", 3, 2, 3, 1, 0], tab: "E|-0-|\nB|-1-|\nG|-3-|\nD|-2-|\nA|-3-|\nE|-X-|", v: "URL_VIDEO" },
+        { t: "Re Séptima (D7)", d: "D7", p: ["X", "X", 0, 2, 1, 2], tab: "E|-2-|\nB|-1-|\nG|-2-|\nD|-0-|\nA|-X-|\nE|-X-|", v: "URL_VIDEO" },
+        { t: "Mi Séptima (E7)", d: "E7", p: [0, 2, 0, 1, 0, 0], tab: "E|-0-|\nB|-0-|\nG|-1-|\nD|-0-|\nA|-2-|\nE|-0-|", v: "URL_VIDEO" },
+        { t: "Fa Séptima (F7)", d: "F7", p: [1, 3, 1, 2, 1, 1], tab: "E|-1-|\nB|-1-|\nG|-2-|\nD|-1-|\nA|-3-|\nE|-1-|", v: "URL_VIDEO" },
+        { t: "Sol Séptima (G7)", d: "G7", p: [3, 2, 0, 0, 0, 1], tab: "E|-1-|\nB|-0-|\nG|-0-|\nD|-0-|\nA|-2-|\nE|-3-|", v: "URL_VIDEO" },
+        { t: "La Séptima (A7)", d: "A7", p: ["X", 0, 2, 0, 2, 0], tab: "E|-0-|\nB|-2-|\nG|-0-|\nD|-2-|\nA|-0-|\nE|-X-|", v: "URL_VIDEO" },
+        { t: "Si Séptima (B7)", d: "B7", p: ["X", 2, 1, 2, 0, 2], tab: "E|-2-|\nB|-0-|\nG|-2-|\nD|-1-|\nA|-2-|\nE|-X-|", v: "URL_VIDEO" },
+
+        // CANCIONES Y EJERCICIOS (22-30)
+        { t: "Independencia de Dedos", d: "Ejercicio 1-2-3-4", p: [1, 2, 3, 4, null, null], tab: "Subir y bajar por el mástil\ncuerda por cuerda.", v: "URL_VIDEO" },
+        { t: "Canción Fácil: Knocking on Heaven's Door", d: "G - D - Am / G - D - C", p: [3, 2, 0, 0, 3, 3], tab: "G - D - Am\nG - D - C", v: "URL_VIDEO" },
+        { t: "Riff: Smoke on the Water", d: "Power Chords", p: [null, null, 5, 5, null, null], tab: "D|--0--3--5---0--3--6--5--", v: "URL_VIDEO" }
     ];
 
-    // Rellenar el resto hasta 30 de forma segura
-    if(database.length < 30) {
-        for(let i = database.length; i < 30; i++) {
-            database.push({
-                t: `Lección Elite ${i+1}`,
-                v: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-                chordName: "Acorde de Nivel " + i,
-                chordPattern: [null, null, 0, 2, 3, 2],
-                tabs: "E|---2---|\nB|---3---|\nG|---2---|\nD|---0---|\nA|-------|\nE|-------|",
-                steps: [{h: "Técnica", p: "Sigue el video para esta lección.", r: "5 Min"}]
-            });
-        }
+    // Rellenar hasta 30
+    while(plan.length < 30) {
+        plan.push({ t: "Perfeccionamiento Elite", d: "Velocidad de cambio", p: [null, null, null, null, null, null], tab: "Practica los 21 acordes\nuno tras otro sin parar.", v: "" });
     }
 
-    function initFretboard() {
-        const board = document.getElementById('fretboard');
-        board.innerHTML = "";
-        for(let s=0; s<6; s++) {
-            const str = document.createElement('div');
-            str.className = "string";
-            for(let f=0; f<=4; f++) {
-                const mark = document.createElement('div');
-                mark.className = "fret-mark";
-                mark.id = `s${s}-f${f}`;
-                mark.innerText = f === 0 ? "O" : f;
-                str.appendChild(mark);
+    function drawChord(pattern) {
+        // Limpiar puntos previos
+        document.querySelectorAll('.note-dot, .open-string, .muted-string').forEach(e => e.remove());
+        
+        pattern.forEach((val, sIdx) => {
+            const stringEl = document.getElementById(`s${sIdx}`);
+            if (val === "X") {
+                stringEl.innerHTML += `<span class="muted-string">X</span>`;
+            } else if (val === 0) {
+                stringEl.innerHTML += `<span class="open-string">O</span>`;
+            } else if (val !== null) {
+                // Ajustar posición visual según traste
+                const topPos = (val * 44) - 22;
+                stringEl.innerHTML += `<div class="note-dot" style="top:${topPos}px">${val}</div>`;
             }
-            board.appendChild(str);
-        }
+        });
     }
 
     function updateUI() {
-        const d = database[currentDay];
-        document.getElementById('day-display').innerText = `DÍA ${String(currentDay+1).padStart(2,'0')}`;
-        document.getElementById('title-display').innerText = d.t;
-        document.getElementById('lesson-video').src = d.v;
-        document.getElementById('tab-content').innerText = d.tabs;
-        document.getElementById('chord-title').innerText = d.chordName;
+        const item = plan[currentDay];
         document.getElementById('streak-num').innerText = currentDay + 1;
-        document.getElementById('xp-num').innerText = xp;
-
-        // Actualizar Mástil
-        document.querySelectorAll('.fret-mark').forEach(m => m.classList.remove('active-note'));
-        d.chordPattern.forEach((fret, sIndex) => {
-            if(fret !== null) {
-                const note = document.getElementById(`s${sIndex}-f${fret}`);
-                if(note) note.classList.add('active-note');
-            }
-        });
-
-        // Tareas
-        const list = document.getElementById('task-list');
-        list.innerHTML = "";
-        d.steps.forEach(s => {
-            const div = document.createElement('div');
-            div.className = "task";
-            div.innerHTML = `<b style="color:var(--primary); font-size:11px;">${s.h}</b><p style="margin:5px 0; font-size:13px; opacity:0.8;">${s.p}</p>`;
-            list.appendChild(div);
-        });
-
-        // Botón con tiempo 0
-        const btn = document.getElementById('next-btn');
-        btn.innerText = "COMPLETAR DÍA " + (currentDay + 1);
-        btn.disabled = false;
+        document.getElementById('lesson-title').innerText = item.t;
+        document.getElementById('chord-name').innerText = item.d;
+        document.getElementById('tab-content').innerText = item.tab;
+        drawChord(item.p);
     }
 
     function login() {
@@ -184,22 +167,17 @@
             document.getElementById('app-content').style.display = 'block';
             document.getElementById('bottom-nav').style.display = 'block';
             document.getElementById('top-nav').style.display = 'flex';
-            initFretboard();
             updateUI();
-        } else { alert("PASSCODE INCORRECTO"); }
+        }
     }
 
-    function move() {
+    function nextDay() {
         if(currentDay < 29) {
             currentDay++;
-            xp += 100;
             updateUI();
             window.scrollTo(0,0);
-        } else {
-            alert("¡HAS COMPLETADO EL ENTRENAMIENTO ELITE!");
         }
     }
 </script>
-
 </body>
 </html>
