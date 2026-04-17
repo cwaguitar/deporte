@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jose Guitar | Elite 30 Days</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #fbbf24; --bg: #05070a; --card: #111827; --text: #ffffff; --success: #10b981; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 180px; }
+        #auth-screen { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(rgba(0,0,0,0.4), var(--bg)), url('portada.JPG') center/cover no-repeat; text-align: center; padding: 20px; }
+        .hero-logo { font-family: 'Syncopate', sans-serif; font-size: 2rem; color: var(--primary); margin-bottom: 5px; }
+        .hero-tag { font-size: 0.8rem; letter-spacing: 4px; opacity: 0.8; margin-bottom: 30px; }
+        .login-box { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 24px; border: 1px solid rgba(251,191,36,0.2); backdrop-filter: blur(15px); width: 100%; max-width: 340px; }
+        input { width: 100%; padding: 16px; border-radius: 12px; border: 1px solid #333; background: #000; color: #fff; text-align: center; font-size: 1rem; margin-bottom: 15px; }
+        .top-nav { width: 100%; background: #000; padding: 15px 20px; display: none; align-items: center; justify-content: space-between; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
+        .progress-container { width: 60%; background: #222; height: 8px; border-radius: 10px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--primary); width: 0%; transition: 0.5s; }
+        .streak-badge { font-weight: 900; color: var(--primary); font-size: 0.9rem; }
+        #app-content { display: none; padding: 20px; max-width: 500px; margin: 0 auto; }
+        .video-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 20px; overflow: hidden; border: 1px solid #333; margin-bottom: 20px; }
+        .fretboard-card { background: var(--card); border-radius: 24px; padding: 30px 10px; border: 1px solid #1f2937; display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
+        .fretboard-v { width: 180px; height: 260px; background: #1a1a1a; position: relative; border-top: 8px solid #ddd; display: flex; justify-content: space-between; padding: 0 10px; overflow: hidden; }
+        .fret-line { position: absolute; left: 0; width: 100%; height: 2px; background: #333; }
+        .fl-1 { top: 65px; } .fl-2 { top: 130px; } .fl-3 { top: 195px; } .fl-4 { top: 255px; }
+        .string-v { width: 2px; background: #444; height: 100%; position: relative; z-index: 2; }
+        .finger { width: 24px; height: 24px; background: var(--primary); border-radius: 50%; position: absolute; left: 50%; transform: translate(-50%, -50%); z-index: 10; display: flex; align-items: center; justify-content: center; color: #000; font-size: 10px; font-weight: 900; box-shadow: 0 0 15px var(--primary); }
+        .status-mark { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-weight: bold; font-size: 12px; }
+        .rhythm-card { background: var(--card); border-radius: 24px; padding: 25px; border: 1px solid #1f2937; text-align: center; margin-bottom: 20px; }
+        .arrow-pattern { font-size: 2rem; color: var(--primary); letter-spacing: 10px; margin: 15px 0; }
+        .objective-box { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2); padding: 15px; border-radius: 15px; margin-bottom: 20px; }
+        .check-item { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; margin: 8px 0; }
+        .btn-main { background: var(--primary); color: #000; border: none; padding: 22px; border-radius: 18px; font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; font-size: 1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: linear-gradient(transparent, var(--bg) 40%); padding: 40px 20px 20px; display: none; z-index: 100; }
+    </style>
+</head>
+<body>
+<div id="auth-screen">
+    <div class="hero-logo">JOSE GUITAR</div>
+    <div class="hero-tag">30 DAYS ELITE PROGRAM</div>
+    <div class="login-box">
+        <input type="password" id="pass-input" placeholder="INGRESA TU CÓDIGO">
+        <button class="btn-main" onclick="login()">EMPEZAR A TOCAR</button>
+    </div>
+</div>
+<div class="top-nav" id="top-nav">
+    <div class="streak-badge">🔥 <span id="streak-val">1</span> DÍAS</div>
+    <div class="progress-container"><div class="progress-bar" id="p-bar"></div></div>
+    <div style="font-weight:900; font-size:0.8rem" id="day-label">DÍA 1</div>
+</div>
+<div id="app-content">
+    <div class="objective-box">
+        <div style="color:var(--success); font-weight:900; font-size:0.7rem; text-transform:uppercase;">Objetivo de hoy:</div>
+        <div id="daily-goal" style="font-weight:700; margin-top:5px;">Cargando...</div>
+    </div>
+    <div class="video-wrapper"><iframe id="main-video" src="" style="width:100%; height:100%; border:none;" allowfullscreen></iframe></div>
+    <div id="chord-view" class="fretboard-card">
+        <h2 id="chord-title" style="margin:0 0 20px 0; font-family:'Syncopate'; color:var(--primary); font-size:1.2rem;">---</h2>
+        <div class="fretboard-v">
+            <div class="fret-line fl-1"></div><div class="fret-line fl-2"></div><div class="fret-line fl-3"></div><div class="fret-line fl-4"></div>
+            <div class="string-v" id="str0"></div><div class="string-v" id="str1"></div><div class="string-v" id="str2"></div>
+            <div class="string-v" id="str3"></div><div class="string-v" id="str4"></div><div class="string-v" id="str5"></div>
+        </div>
+    </div>
+    <div id="rhythm-view" class="rhythm-card" style="display:none;">
+        <h2 id="rhythm-title" style="margin:0; font-family:'Syncopate'; font-size:1.1rem; color:var(--primary);">PATRÓN DE RASGUEO</h2>
+        <div class="arrow-pattern" id="arrow-display">↓ ↓ ↑ ↑ ↓</div>
+    </div>
+    <div style="background:var(--card); padding:20px; border-radius:20px; border:1px solid #1f2937; margin-bottom:20px;">
+        <h3 id="lesson-name" style="margin:0; font-size:1.2rem;"></h3>
+        <p id="lesson-desc" style="font-size:0.9rem; opacity:0.7; margin:10px 0; line-height:1.5;"></p>
+        <div id="checklist-ui"></div>
+    </div>
+</div>
+<div class="bottom-nav" id="bottom-nav"><button class="btn-main" onclick="completeDay()">COMPLETAR DÍA ✓</button></div>
+<script>
+    const PASS = "GUITARRA1";
+    let currentDay = 0;
+    const curriculum = [
+        { t: "La Mayor (A)", goal: "Día 1: Tu primer acorde", cat: "chord", p: ["X", 0, 2, 2, 2, 0], desc: "Tres dedos en fila en el segundo traste." },
+        { t: "Re Mayor (D)", goal: "Día 2: Triángulo agudo", cat: "chord", p: ["X", "X", 0, 2, 3, 2], desc: "No toques las cuerdas 5 y 6." },
+        { t: "Mi Mayor (E)", goal: "Día 3: El poder del Rock", cat: "chord", p: [0, 2, 2, 1, 0, 0], desc: "Usa todas las cuerdas con fuerza." },
+        { t: "Cambio A - D", goal: "Día 4: Fluidez", cat: "chord", p: ["X", 0, 2, 2, 2, 0], desc: "Alterna sin detener la mano derecha." },
+        { t: "Sol Mayor (G)", goal: "Día 5: Apertura total", cat: "chord", p: [3, 2, 0, 0, 3, 3], desc: "Usa tus 4 dedos para mayor brillo." }
+    ];
+    for(let i=curriculum.length; i<15; i++) curriculum.push({ t: "Acorde Menor", goal: "Baladas", cat: "chord", p: ["X", 0, 2, 2, 1, 0], desc: "Siente la melancolía." });
+    for(let i=15; i<20; i++) curriculum.push({ t: "Séptimos", goal: "Blues & Jazz", cat: "chord", p: [0, 2, 0, 1, 0, 0], desc: "Tensión dominante." });
+    for(let i=20; i<25; i++) curriculum.push({ t: "Ritmo Pop", goal: "El Péndulo", cat: "rhythm", arr: "↓ ↓ ↑ ↑ ↓ ↑", desc: "Mantén la muñeca suelta." });
+    for(let i=25; i<30; i++) curriculum.push({ t: "Canción Final", goal: "¡Éxito!", cat: "song", desc: "Toca junto al video.", arr: "G - D - Em - C" });
+    function render() {
+        const d = curriculum[currentDay];
+        document.getElementById('p-bar').style.width = `${((currentDay+1)/30)*100}%`;
+        document.getElementById('day-label').innerText = `DÍA ${currentDay+1}`;
+        document.getElementById('streak-val').innerText = currentDay+1;
+        document.getElementById('daily-goal').innerText = d.goal;
+        document.getElementById('lesson-name').innerText = d.t;
+        document.getElementById('lesson-desc').innerText = d.desc;
+        if(d.cat === 'chord') {
+            document.getElementById('chord-view').style.display = 'flex';
+            document.getElementById('rhythm-view').style.display = 'none';
+            document.getElementById('chord-title').innerText = d.t;
+            drawChord(d.p);
+        } else {
+            document.getElementById('chord-view').style.display = 'none';
+            document.getElementById('rhythm-view').style.display = 'block';
+            document.getElementById('arrow-display').innerText = d.arr || "↓ ↓ ↑ ↑ ↓";
+        }
+        document.getElementById('checklist-ui').innerHTML = `<div class="check-item"><input type="checkbox"> Ver video</div><div class="check-item"><input type="checkbox"> Practicar 5 min</div>`;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function drawChord(p) {
+        document.querySelectorAll('.finger, .status-mark').forEach(e => e.remove());
+        p.forEach((val, i) => {
+            const str = document.getElementById(`str${i}`);
+            if (val === "X") str.innerHTML += `<span class="status-mark" style="color:#ef4444">X</span>`;
+            else if (val === 0) str.innerHTML += `<span class="status-mark" style="color:var(--primary)">O</span>`;
+            else if (typeof val === 'number') {
+                const topPos = (val * 65) - 32;
+                str.innerHTML += `<div class="finger" style="top:${topPos}px">${val}</div>`;
+            }
+        });
+    }
+    function login() {
+        if(document.getElementById('pass-input').value.toUpperCase() === PASS) {
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('app-content').style.display = 'block';
+            document.getElementById('top-nav').style.display = 'flex';
+            document.getElementById('bottom-nav').style.display = 'block';
+            render();
+        } else { alert("ERROR"); }
+    }
+    function completeDay() {
+        if(currentDay < 29) { currentDay++; render(); }
+    }
+</script>
+</body>
+</html>
