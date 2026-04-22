@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jose Guitar | Elite Academy 30</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #fbbf24; --bg: #05070a; --card: #111827; --text: #ffffff; --success: #10b981; --accent: #3b82f6; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; }
+
+        /* HEADER ELITE */
+        .top-nav { width: 100%; background: #000; padding: 15px 20px; display: none; align-items: center; justify-content: space-between; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
+        .progress-bar { height: 6px; background: var(--primary); width: 0%; transition: 0.5s; position: absolute; bottom: 0; left: 0; }
+
+        /* PORTADA */
+        #auth-screen { 
+            height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: linear-gradient(rgba(0,0,0,0.6), var(--bg)), url('portada.JPG') center/cover;
+            text-align: center; padding: 20px;
+        }
+        .login-box { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 24px; border: 1px solid rgba(251,191,36,0.2); backdrop-filter: blur(15px); width: 100%; max-width: 320px; }
+        input { width: 100%; padding: 16px; border-radius: 12px; border: 1px solid #333; background: #000; color: #fff; text-align: center; margin-bottom: 15px; }
+
+        /* MENÚ DE MÓDULOS */
+        .module-tag { font-size: 0.65rem; font-weight: 900; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block; }
+        
+        /* CONTENIDO */
+        #app-content { display: none; padding: 20px; max-width: 500px; margin: 0 auto; animation: fadeIn 0.4s ease; }
+        .card { background: var(--card); border-radius: 24px; padding: 25px; border: 1px solid #1f2937; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        /* DIAGRAMA INTERACTIVO */
+        .fretboard-v { width: 180px; height: 260px; background: #1a1a1a; position: relative; border-top: 8px solid #ddd; display: flex; justify-content: space-between; padding: 0 10px; overflow: hidden; margin: 20px auto; }
+        .fret-line { position: absolute; left: 0; width: 100%; height: 2px; background: #333; z-index: 1; }
+        .fl-1 { top: 65px; } .fl-2 { top: 130px; } .fl-3 { top: 195px; } .fl-4 { top: 255px; }
+        .string-v { width: 2px; background: #444; height: 100%; position: relative; z-index: 2; }
+        .finger { width: 26px; height: 26px; background: var(--primary); border-radius: 50%; position: absolute; left: 50%; transform: translate(-50%, -50%); z-index: 10; display: flex; align-items: center; justify-content: center; color: #000; font-size: 10px; font-weight: 900; cursor: pointer; }
+        .status-mark { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-weight: 900; font-size: 12px; cursor: pointer; }
+
+        /* GUÍA TÉCNICA */
+        .tech-box { display: flex; align-items: center; gap: 15px; background: rgba(59,130,246,0.1); padding: 15px; border-radius: 15px; border: 1px solid rgba(59,130,246,0.2); margin: 15px 0; }
+
+        /* NAVEGACIÓN */
+        .nav-buttons { position: fixed; bottom: 0; left: 0; width: 100%; background: linear-gradient(transparent, var(--bg) 30%); padding: 30px 20px; display: none; gap: 10px; z-index: 100; }
+        .btn-main { background: var(--primary); color: #000; border: none; padding: 18px; border-radius: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; flex: 2; font-size: 0.85rem; }
+        .btn-prev { background: #374151; color: #fff; border: none; padding: 18px; border-radius: 15px; font-weight: 700; cursor: pointer; flex: 1; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+<div id="auth-screen">
+    <div style="font-family:'Syncopate'; font-size:2rem; color:var(--primary)">JOSE GUITAR</div>
+    <div style="letter-spacing:4px; font-size:0.7rem; margin-bottom:30px; opacity:0.8">INTENSIVO ELITE</div>
+    <div class="login-box">
+        <input type="password" id="pass-input" placeholder="CÓDIGO DE ACCESO">
+        <button class="btn-main" style="width:100%" onclick="login()">ENTRAR AL CURSO</button>
+    </div>
+</div>
+
+<div class="top-nav" id="top-nav">
+    <div id="day-label" style="font-weight:900; font-size:0.8rem">MÓDULO 0</div>
+    <div style="font-weight:900; color:var(--primary)">🔥 STREAK</div>
+    <div class="progress-bar" id="p-bar"></div>
+</div>
+
+<div id="app-content"></div>
+
+<div class="nav-buttons" id="nav-buttons">
+    <button class="btn-prev" id="btn-back" onclick="prevLesson()">VOLVER</button>
+    <button class="btn-main" onclick="nextLesson()">CONTINUAR ✓</button>
+</div>
+
+<script>
+    const PASS = "GUITARRA1";
+    let currentStep = 0;
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const stringFrequencies = [82.41, 110.00, 146.83, 196.00, 246.94, 329.63];
+
+    function playNote(s, f) {
+        const freq = stringFrequencies[s] * Math.pow(2, f / 12);
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + 1);
+    }
+
+    const curso = [
+        {
+            t: "FUNDAMENTOS ÉLITE",
+            mod: "Módulo 1: Introducción",
+            cat: "intro",
+            d: "Bienvenido al método intensivo. Antes de tocar, recuerda: <br><br><b>1. Dedos:</b> Índice(1), Medio(2), Anular(3), Meñique(4).<br><b>2. Diagrama:</b> Toca los puntos para escuchar la nota real.<br><b>3. Postura:</b> Espalda recta y pulgar detrás del mástil."
+        },
+        { 
+            t: "La Mayor (A)", 
+            mod: "Módulo 2: Acordes Mayores",
+            cat: "chord", 
+            p: ["X", 0, 2, 2, 2, 0], 
+            d: "El acorde más versátil. Asegúrate de que la 1ra cuerda suene cristalina." 
+        },
+        { 
+            t: "Digitación 1-2-3-4", 
+            mod: "Módulo 3: El Gimnasio (Técnica)",
+            cat: "tech", 
+            d: "Este ejercicio de Rodrigo Ferraz es vital. Toca traste 1, 2, 3 y 4 cuerda por cuerda. No levantes los dedos anteriores.",
+            gif: "1-2-3-4"
+        },
+        { 
+            t: "La Menor (Am)", 
+            mod: "Módulo 4: Acordes Menores",
+            cat: "chord", 
+            p: ["X", 0, 2, 2, 1, 0], 
+            d: "Siente la melancolía. Es la misma forma de Mi Mayor pero bajando una cuerda cada dedo." 
+        },
+        { 
+            t: "Ritmo Pop/Rock", 
+            mod: "Módulo 5: Rítmica",
+            cat: "rhythm", 
+            arr: "↓ ↓ ↑ ↑ ↓ ↑", 
+            d: "Mantén el brazo derecho como un péndulo constante. No detengas el movimiento." 
+        }
+    ];
+
+    function render() {
+        const step = curso[currentStep];
+        const content = document.getElementById('app-content');
+        document.getElementById('p-bar').style.width = `${((currentStep+1) / curso.length) * 100}%`;
+        document.getElementById('day-label').innerText = step.mod;
+        document.getElementById('btn-back').style.visibility = currentStep === 0 ? "hidden" : "visible";
+
+        let html = `
+            <div class="card">
+                <span class="module-tag">${step.mod}</span>
+                <h2 style="font-family:'Syncopate'; color:var(--primary); margin:5px 0 15px 0; font-size:1.4rem;">${step.t}</h2>
+                <p style="opacity:0.8; font-size:0.95rem; line-height:1.6;">${step.d}</p>
+            </div>
+        `;
+
+        if (step.cat === "chord") {
+            html += `
+                <div class="card" style="text-align:center;">
+                    <div class="fretboard-v">
+                        <div class="fret-line fl-1"></div><div class="fret-line fl-2"></div><div class="fret-line fl-3"></div><div class="fret-line fl-4"></div>
+                        ${[0,1,2,3,4,5].map(i => `<div class="string-v" id="str${i}"></div>`).join('')}
+                    </div>
+                    <p style="color:var(--primary); font-size:0.7rem; font-weight:900;">TOCA LOS PUNTOS PARA ESCUCHAR</p>
+                </div>
+            `;
+        } else if (step.cat === "tech") {
+            html += `
+                <div class="tech-box">
+                    <div style="font-size:1.5rem;">🎸</div>
+                    <div style="font-size:0.85rem; font-weight:700;">EJERCICIO DE INDEPENDENCIA:<br><span style="color:var(--accent)">Sube y baja del traste 1 al 4</span></div>
+                </div>
+            `;
+        } else if (step.cat === "rhythm") {
+            html += `<div class="card" style="text-align:center;"><div style="font-size:2.2rem; color:var(--primary); letter-spacing:12px; margin:20px 0; font-weight:900;">${step.arr}</div></div>`;
+        }
+
+        content.innerHTML = html;
+        if(step.cat === "chord") drawChord(step.p);
+        window.scrollTo(0,0);
+    }
+
+    function drawChord(p) {
+        p.forEach((val, i) => {
+            const str = document.getElementById(`str${i}`);
+            if (val === "X") str.innerHTML = `<span class="status-mark" style="color:#ef4444">X</span>`;
+            else if (val === 0) str.innerHTML = `<span class="status-mark" style="color:var(--primary)" onclick="playNote(${i}, 0)">O</span>`;
+            else if (typeof val === 'number') {
+                const pos = (val * 65) - 32;
+                str.innerHTML = `<div class="finger" style="top:${pos}px" onclick="playNote(${i}, ${val})">${val}</div>`;
+            }
+        });
+    }
+
+    function login() {
+        if(document.getElementById('pass-input').value.toUpperCase() === PASS) {
+            audioCtx.resume();
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('app-content').style.display = 'block';
+            document.getElementById('top-nav').style.display = 'flex';
+            document.getElementById('nav-buttons').style.display = 'flex';
+            render();
+        } else { alert("CÓDIGO INVÁLIDO"); }
+    }
+
+    function nextLesson() { if(currentStep < curso.length - 1) { currentStep++; render(); } }
+    function prevLesson() { if(currentStep > 0) { currentStep--; render(); } }
+</script>
+</body>
+</html>
